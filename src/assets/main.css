@@ -3,7 +3,6 @@
 #app {
   width: 100%;
   margin: 0 auto;
-  padding: 2rem;
   font-weight: normal;
   font-family: 'Barlow Condensed', sans-serif;
 }
@@ -11,7 +10,6 @@
 nav a {
   text-decoration: none;
   color: black;
-  transition: 0.4s;
 }
 
 #footer {
@@ -28,6 +26,33 @@ nav a {
     font-family: 'Barlow Condensed', sans-serif;
 }
 
+h1 {
+  font-family: 'Antic Didone', serif;
+  font-style: normal;
+  font-weight: 100;
+  padding: 0 0 0 0;
+  font-size: 150px;
+    line-height: .86;
+    margin-bottom: 10px;
+    width: 550px;
+    letter-spacing: -5px;
+}
+
+h2 {
+  font-family: 'Antic Didone', serif;
+  font-size: 65px;
+    line-height: .85;
+    margin-bottom: 30px;
+    letter-spacing: 0;
+}
+
+.info-article {
+  padding: 1rem 5rem 0 4rem;
+  height: auto;
+  display: block;
+  position: relative;
+}
+
 @media (hover: hover) {
   a:hover {
     background-color: hsla(160, 100%, 37%, 0.2);
@@ -42,5 +67,13 @@ nav a {
 
   #app {
     padding: 0 2rem;
+  }
+
+
+}
+
+@media (max-width: 1023px) {
+  #app {
+    padding: 0 1rem;
   }
 }
