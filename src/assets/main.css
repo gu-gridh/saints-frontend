@@ -1,18 +1,31 @@
 @import './base.css';
 
 #app {
-  max-width: 1280px;
+  width: 100%;
   margin: 0 auto;
   padding: 2rem;
   font-weight: normal;
+  font-family: 'Barlow Condensed', sans-serif;
 }
 
-a,
-.green {
+nav a {
   text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
+  color: black;
   transition: 0.4s;
-  padding: 3px;
+}
+
+#footer {
+    background-color: #ececec;
+    color: #212529;
+    line-height: 1;
+    height: 70px;
+    width: calc(100% + 3em);
+    left: 0;
+    font-size: 12px;
+    position: fixed;
+    z-index: 3000;
+    bottom: 0;
+    font-family: 'Barlow Condensed', sans-serif;
 }
 
 @media (hover: hover) {
@@ -28,8 +41,6 @@ a,
   }
 
   #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
     padding: 0 2rem;
   }
 }
