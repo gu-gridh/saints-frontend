@@ -14,6 +14,7 @@ const { page, loading, error } = useCmsPage(computed(() => props.slug))
 
 <template>
     <main>
+      <div v-if="page.show_banner" id="hero"></div>
       <h1>{{ page.title }}</h1>
   
       <template v-for="block in page.body" :key="block.id">
@@ -24,12 +25,6 @@ const { page, loading, error } = useCmsPage(computed(() => props.slug))
         <div
           v-else-if="block.type === 'text'"
           v-html="block.value"
-        />
-  
-        <img
-          v-else-if="block.type === 'image'"
-          :src="block.value.meta.download_url"
-          :alt="block.value.title"
         />
       </template>
     </main>
