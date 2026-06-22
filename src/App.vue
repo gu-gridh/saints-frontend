@@ -11,13 +11,13 @@ import { RouterLink, RouterView } from 'vue-router'
     <RouterLink to="/bibliography" class="main-menu-link">Bibliography</RouterLink>
   </nav>
   <RouterView />
-  <div id="footer">
-  </div>  
+  <!-- <div id="footer"> -->
+  <!-- </div>   -->
 </template>
 
 <style scoped>
 .main-menu {
-  padding: 0 0 40px;
+  padding: 0 0 30px;
   font-size: 25px;
   font-weight: 200;
   display: -webkit-box;
