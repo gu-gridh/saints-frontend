@@ -1,5 +1,10 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { computed } from 'vue'
+import { useRoute, RouterLink, RouterView } from 'vue-router'
+import Footer from '@/components/Footer.vue'
+
+const route = useRoute()
+const showFooter = computed(() => !route.meta.hideFooter)
 </script>
 
 <template>
@@ -11,8 +16,7 @@ import { RouterLink, RouterView } from 'vue-router'
     <RouterLink to="/bibliography" class="main-menu-link">Bibliography</RouterLink>
   </nav>
   <RouterView />
-  <!-- <div id="footer"> -->
-  <!-- </div>   -->
+  <Footer v-if="showFooter" />
 </template>
 
 <style scoped>
