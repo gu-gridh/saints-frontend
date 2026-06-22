@@ -13,7 +13,7 @@ const { page, loading, error } = useCmsPage(computed(() => props.slug))
 </script>
 
 <template>
-    <main>
+    <main  v-if="page">
       <div v-if="page.show_banner" id="hero"></div>
       <h1>{{ page.title }}</h1>
   
