@@ -1,5 +1,10 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import { useSaintsStore } from '@/stores/mode'
+
+const store = useSaintsStore()
+
+
 </script>
 
 <template>
@@ -11,8 +16,8 @@ import { RouterLink, RouterView } from 'vue-router'
     <RouterLink to="/bibliography" class="main-menu-link">Bibliography</RouterLink>
   </nav>
   <RouterView />
-  <!-- <div id="footer"> -->
-  <!-- </div>   -->
+  <div id="footer" v-if="store.mode === ''">
+  </div>  
 </template>
 
 <style scoped>
