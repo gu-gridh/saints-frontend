@@ -24,6 +24,7 @@ import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
 import DateSlider from '@/components/DateSlider.vue'
+import { map as fetchMap } from '@/assets/db'
 import { mapCenter as defaultMapCenter } from '@/assets/config'
 import { buildMapParams, onFeatureClick } from '@/assets/query'
 
@@ -75,12 +76,9 @@ async function fetchPlacesGeoJson() {
 
   try {
     const params = buildMapParams(query.value, mapArgs.value)
-    const response = await fetch(`/api/map/features?${params.toString()}`)
+    const response = await fetchMap(params.toString())
 
-    if (!response.ok) {
-      throw new Error('Could not load map features')
-    }
-    return await response.json()
+    return response.data
   } finally {
     setLoading(false)
   }
