@@ -1,10 +1,10 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import { useSaintsStore } from '@/stores/mode'
+import { computed } from 'vue'
+import { useRoute, RouterLink, RouterView } from 'vue-router'
+import Footer from '@/components/Footer.vue'
 
-const store = useSaintsStore()
-
-
+const route = useRoute()
+const showFooter = computed(() => !route.meta.hideFooter)
 </script>
 
 <template>
@@ -16,8 +16,7 @@ const store = useSaintsStore()
     <RouterLink to="/bibliography" class="main-menu-link">Bibliography</RouterLink>
   </nav>
   <RouterView />
-  <div id="footer" v-if="store.mode === ''">
-  </div>  
+  <Footer v-if="showFooter" />
 </template>
 
 <style scoped>
