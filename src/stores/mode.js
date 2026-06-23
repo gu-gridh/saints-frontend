@@ -1,7 +1,7 @@
 // src/stores/mode.js
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { mapCenter as defaultMapCenter, tileLayerTypes } from '@/assets/config'
+import { mapCenter as defaultMapCenter } from '@/assets/config'
 
 export const useSaintsStore = defineStore('saints', () => {
   const mapCenter = ref([
@@ -17,7 +17,6 @@ export const useSaintsStore = defineStore('saints', () => {
   const showParams = ref(null)
   const showObj = ref(null)
   const dynamicLayers = ref([])
-  const tileLayerType = ref(tileLayerTypes[0])
   const visualObj = ref(null)
   const showAdvanced = ref(false)
   const searchDateRange = ref(null)
@@ -85,10 +84,6 @@ export const useSaintsStore = defineStore('saints', () => {
     showObj.value = record
   }
 
-  function setBackgroundLayer(tileLayer) {
-    tileLayerType.value = tileLayer
-  }
-
   function showVisual(id) {
     visualObj.value = id
   }
@@ -110,7 +105,6 @@ export const useSaintsStore = defineStore('saints', () => {
     showParams,
     showObj,
     dynamicLayers,
-    tileLayerType,
     visualObj,
     showAdvanced,
     searchDateRange,
@@ -130,7 +124,6 @@ export const useSaintsStore = defineStore('saints', () => {
     removeLayer,
     show,
     showLoaded,
-    setBackgroundLayer,
     showVisual,
     setShowAdvanced,
     setIsLoading,

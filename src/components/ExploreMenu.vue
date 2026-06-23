@@ -38,7 +38,7 @@ const startMap = () => {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 #explore-type-menu {
   display: flex;
   justify-content: center;
