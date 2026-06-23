@@ -8,7 +8,7 @@
     </pane>
 
     <pane :size="50">
-      <ExplorePlaces />
+      <ExploreBase />
     </pane>
   </splitpanes>
 </template>
@@ -16,7 +16,7 @@
 <script setup>
 import { ref } from 'vue'
 import Map from '@/components/Map.vue'
-import ExplorePlaces from '@/components/ExplorePlaces.vue'
+import ExploreBase from '@/components/ExploreBase.vue'
 import { Splitpanes, Pane } from 'splitpanes'
 import 'splitpanes/dist/splitpanes.css'
 

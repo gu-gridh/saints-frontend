@@ -1,4 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { routes } from '@/assets/query.js'
+
+const exploreChildRoutes = [
+  {
+    path: '',
+    component: () => import('../views/ExploreView.vue'),
+  },
+  ...routes(),
+]
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,27 +16,27 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: () => import('../views/CmsPageView.vue'),
-      props: {slug: 'home' },
+      props: { slug: 'home' },
     },
     {
       path: '/introduction',
       name: 'introduction',
       component: () => import('../views/CmsPageView.vue'),
-      props: {slug: 'introduction' },
+      props: { slug: 'introduction' },
     },
     {
       path: '/explore',
-      name: 'explore',
       component: () => import('../views/ExploreView.vue'),
       meta: {
         hideFooter: true,
       },
+      children: exploreChildRoutes,
     },
     {
       path: '/project',
       name: 'project',
       component: () => import('../views/CmsPageView.vue'),
-      props: {slug: 'project' },
+      props: { slug: 'project' },
     },
     {
       path: '/bibliography',
