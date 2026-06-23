@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vueform/slider": "^2.1.10",
     "leaflet": "^1.9.4",
     "pinia": "^3.0.4",
     "splitpanes": "^4.1.2",
