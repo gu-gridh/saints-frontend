@@ -1,5 +1,5 @@
 <template>
-Hej
+
 </template>
 
 <script setup>
@@ -9,6 +9,6 @@ import { useSaintsStore } from '@/stores/mode'
 const store = useSaintsStore()
 
 onMounted(() => {
-    store.mode = 'places'
+    store.mode = 'saints'
 })
 </script>
