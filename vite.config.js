@@ -17,4 +17,20 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://saints.dh.gu.se',
+        changeOrigin: true,
+      },
+      '/cms': {
+        target: 'https://saints.dh.gu.se',
+        changeOrigin: true,
+      },
+      '/media': {
+        target: 'https://saints.dh.gu.se',
+        changeOrigin: true,
+      },
+  },
+}
 })
