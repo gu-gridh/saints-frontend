@@ -24,7 +24,6 @@ const router = createRouter({
       meta: {
         hideFooter: true,
       },
-      children: exploreChildRoutes,
     },
     {
       path: '/project',
