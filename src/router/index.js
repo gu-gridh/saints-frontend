@@ -9,6 +9,8 @@ export const exploreChildRoutes = [
   ...exploreRoutes(),
 ]
 
+console.log(exploreRoutes())
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -25,15 +27,19 @@ const router = createRouter({
       props: { slug: 'introduction' },
     },
     {
-      path: '/explore',
-      name: 'explore',
-      component: () => import('../views/ExploreView.vue'),
-      redirect: '/explore/places',
-      children: exploreRoutes(),
-      meta: {
-        hideFooter: true,
-      },
+  path: '/explore',
+  component: () => import('../views/ExploreView.vue'),
+  children: [
+    {
+      path: '',
+      redirect: { name: 'places' },
     },
+    ...exploreRoutes(),
+  ],
+  meta: {
+    hideFooter: true,
+  },
+},
     {
       path: '/project',
       name: 'project',

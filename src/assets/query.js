@@ -230,25 +230,34 @@ export function buildMapParams(queryState, mapArgs = {}) {
 }
 
 export function routes() {
-  return Object.keys(definitions).reduce((routes, key) => {
-    const definition = definitions[key]
+  return Object.entries(definitions).flatMap(([key, definition]) => {
+    const result = []
 
-    if (definition.routes?.explore) {
-      routes.push({
+    const explore = definition.routes?.explore
+    const show = definition.routes?.show
+
+    if (explore?.component) {
+      result.push({
         path: key,
-        ...definition.routes.explore,
+        name: explore.name,
+        component: explore.component,
       })
     }
 
-    if (definition.routes?.show) {
-      routes.push({
+    if (show?.component) {
+      result.push({
         path: `${key}/:id`,
-        ...definition.routes.show,
+        name: show.name,
+        component: show.component,
+        props: route => ({
+          id: route.params.id,
+          ...(show.props || {}),
+        }),
       })
     }
 
-    return routes
-  }, [])
+    return result
+  })
 }
 
 export function getFeatureId(featureOrProps) {

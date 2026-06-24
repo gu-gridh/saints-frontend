@@ -11,7 +11,11 @@ const showFooter = computed(() => !route.meta.hideFooter)
   <nav class="main-menu">
     <RouterLink to="/" class="main-menu-link">Home</RouterLink>
     <RouterLink to="/introduction" class="main-menu-link">Introduction</RouterLink>
-    <RouterLink to="/explore" class="main-menu-link">Explore</RouterLink>
+    <RouterLink to="/explore/places" class="main-menu-link">
+
+  Explore
+
+</RouterLink>
     <RouterLink to="/project" class="main-menu-link">Project</RouterLink>
     <RouterLink to="/bibliography" class="main-menu-link">Bibliography</RouterLink>
   </nav>
