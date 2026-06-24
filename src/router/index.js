@@ -1,6 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { routes as exploreRoutes } from '@/assets/query'
 
+export const exploreChildRoutes = [
+  {
+    path: '',
+    component: () => import('../views/ExploreView.vue'),
+  },
+  ...exploreRoutes(),
+]
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -18,13 +26,13 @@ const router = createRouter({
     },
     {
       path: '/explore',
+      name: 'explore',
       component: () => import('../views/ExploreView.vue'),
       redirect: '/explore/places',
       children: exploreRoutes(),
       meta: {
         hideFooter: true,
       },
-      children: exploreChildRoutes,
     },
     {
       path: '/project',
