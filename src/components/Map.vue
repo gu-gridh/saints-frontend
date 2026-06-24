@@ -48,6 +48,15 @@ const isLoading = computed(() => store.isLoading)
 const updateSize = computed(() => store.updateSize)
 const refreshLayers = computed(() => store.refreshLayers)
 
+function resizeMap() {
+  requestAnimationFrame(() => {
+    map.value?.invalidateSize()
+  })
+}
+defineExpose({
+  resizeMap,
+})
+
 const mapArgs = computed(() => ({
   zoom: Math.ceil(currentZoom.value),
   range: mapDateRange.value ? mapDateRange.value.join(',') : undefined,

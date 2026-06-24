@@ -1,6 +1,5 @@
 <template>
-  <div>
-
+  <div class="explore-filters">
     <ExploreMenu/>
     <div id="explore-filters-view">
       <div class="adv">

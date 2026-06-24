@@ -7,7 +7,7 @@
       <Map ref="mapRef" />
     </pane>
 
-    <pane :size="50">
+    <pane :size="50" class="explore-pane">
       <ExploreBase />
     </pane>
   </splitpanes>
@@ -26,3 +26,9 @@ function onPaneResized() {
   mapRef.value?.resizeMap()
 }
 </script>
+
+<style scoped>
+.default-theme.splitpanes .splitpanes__pane {
+    background-color: #ffff;
+}
+</style>

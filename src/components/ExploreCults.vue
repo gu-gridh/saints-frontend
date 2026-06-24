@@ -1,5 +1,6 @@
 <template>
-
+<ExploreFilters>
+</ExploreFilters>
 </template>
 
 <script setup>
