@@ -34,6 +34,14 @@ const router = createRouter({
       name: 'bibliography',
       component: () => import('../views/BiblioView.vue'),
     },
+    // Last fallback for nested pages
+    {
+      path: '/:pathMatch(.*)*',
+      component: () => import('../views/CmsPageView.vue'),
+      props: route => ({
+      slug: route.path.split('/').filter(Boolean).at(-1),
+      }),
+    },
   ],
 })
 

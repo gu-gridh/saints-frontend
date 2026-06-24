@@ -26,7 +26,9 @@ const { page, loading, error } = useCmsPage(computed(() => props.slug))
           v-else-if="block.type === 'text'"
           v-html="block.value"
         />
-      </template>
+      </template>      
     </main>
-  </template>
+    <p v-else-if="loading">Loading...</p>
+    <p v-else-if="error">Could not load text.</p>
+</template>
 
