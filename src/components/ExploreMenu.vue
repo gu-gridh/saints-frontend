@@ -53,13 +53,12 @@ img {
   height: 100%;
   object-fit: cover;
   mix-blend-mode: luminosity;
-
-  .type-saints & {
-    filter: brightness(1.5);
-  }
-  .type-people & {
-    filter: brightness(1.7);
-  }
+}
+.type-saints img {
+  filter: brightness(1.5);
+}
+.type-people img {
+  filter: brightness(1.7);
 }
 .img-container {
   border-radius: 50%;
@@ -68,9 +67,9 @@ img {
 }
 .item.router-link-active {
   color: #DC9614;
-  .img-container {
-    background-color: #DC9614;
-  }
+}
+.item.router-link-active .img-container {
+  background-color: #DC9614;
 }
 .item .label {
   font-size: 90%;

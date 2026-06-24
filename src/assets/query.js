@@ -176,8 +176,16 @@ const definitions = {
   },
 }
 
+function cloneState(state) {
+  if (typeof structuredClone === 'function') {
+    return structuredClone(state)
+  }
+
+  return JSON.parse(JSON.stringify(state))
+}
+
 export function getInitialQueryState() {
-  return {
+  return cloneState({
     mode: 'places',
     selectionSummary: '',
     places: { ...definitions.places.state },
@@ -185,7 +193,7 @@ export function getInitialQueryState() {
     cults: { ...definitions.cults.state },
     people: { ...definitions.people.state },
     advanced: { ...definitions.advanced.state },
-  }
+  })
 }
 
 export function buildMapParams(queryState, mapArgs = {}) {

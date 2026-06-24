@@ -11,6 +11,6 @@ import ExploreFilters from '@/components/ExploreFilters.vue'
 const store = useSaintsStore()
 
 onMounted(() => {
-    store.mode = 'places'
+    store.setMode('places')
 })
 </script>

@@ -1,14 +1,12 @@
 <template>
-  <splitpanes
-    class="default-theme"
-    @resized="onPaneResized"
-  >
+  <splitpanes class="default-theme" @resized="onPaneResized">
     <pane :size="50">
       <Map ref="mapRef" />
     </pane>
 
     <pane :size="50" class="explore-pane">
-      <ExploreBase />
+      <ExploreMenu />
+      <slot />
     </pane>
   </splitpanes>
 </template>
@@ -16,7 +14,7 @@
 <script setup>
 import { ref } from 'vue'
 import Map from '@/components/Map.vue'
-import ExploreBase from '@/components/ExploreBase.vue'
+import ExploreMenu from '@/components/ExploreMenu.vue'
 import { Splitpanes, Pane } from 'splitpanes'
 import 'splitpanes/dist/splitpanes.css'
 
@@ -28,7 +26,8 @@ function onPaneResized() {
 </script>
 
 <style scoped>
-.default-theme.splitpanes .splitpanes__pane {
-    background-color: #ffff;
+.explore-pane {
+  padding: 1rem;
+  overflow: auto;
 }
 </style>
