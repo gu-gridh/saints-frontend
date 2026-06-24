@@ -8,29 +8,29 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: () => import('../views/CmsPageView.vue'),
-      props: {slug: 'home' },
+      props: { slug: 'home' },
     },
     {
       path: '/introduction',
       name: 'introduction',
       component: () => import('../views/CmsPageView.vue'),
-      props: {slug: 'introduction' },
+      props: { slug: 'introduction' },
     },
     {
       path: '/explore',
-      name: 'explore',
       component: () => import('../views/ExploreView.vue'),
       redirect: '/explore/places',
       children: exploreRoutes(),
       meta: {
         hideFooter: true,
       },
+      children: exploreChildRoutes,
     },
     {
       path: '/project',
       name: 'project',
       component: () => import('../views/CmsPageView.vue'),
-      props: {slug: 'project' },
+      props: { slug: 'project' },
     },
     {
       path: '/bibliography',

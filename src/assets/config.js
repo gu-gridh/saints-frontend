@@ -5,3 +5,6 @@ export const mapCenter = {
 }
 
 export const focusZoomLevel = 14
+
+export const apiUrl = "https://saints.dh.gu.se/api"
+

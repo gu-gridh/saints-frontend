@@ -1,3 +1,4 @@
+// src/stores/mode.js
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { getInitialQueryState } from '@/assets/query'

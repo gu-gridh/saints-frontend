@@ -33,9 +33,6 @@
 <script setup>
 import Square from './Square.vue'
 
-const startMap = () => {
-  //set map center to the default one
-}
 </script>
 
 <style scoped>

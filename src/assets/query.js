@@ -308,3 +308,19 @@ export function getRelationsCond() {
 export async function getSelectionSummary() {
   return undefined
 }
+
+export function composeQuery(parts) {
+  // compose subqueries for each part
+  // if there are more parts than one, combine these with the and operator
+  let query = parts.map(({ field, op, sstring }) => {
+    // In the API, negation is separate from the operator
+    op = op ? op.replace("not_", "not||") : "equals";
+    return `${op}|${field}|${sstring}`;
+  });
+  if (query.length > 1) {
+    query = ["and", ...query].join("||");
+  } else {
+    query = query[0];
+  }
+  return query;
+}
