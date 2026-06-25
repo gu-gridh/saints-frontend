@@ -212,7 +212,7 @@ export function buildMapParams(queryState, mapArgs = {}) {
     places: 'place',
     saints: 'saint',
     cults: 'cult',
-    people: 'person',
+    people: 'people',
     advanced: 'cult',
   }
 

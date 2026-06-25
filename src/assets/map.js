@@ -64,6 +64,47 @@ function star(color) {
   `)
 }
 
+
+export function countIcon(feature) {
+  const props = feature.properties || feature
+
+  const count = props.ids
+    ? Object.keys(props.ids).length
+    : 1
+
+  const radius = markerSizeFromCount(count)
+  const size = radius * 2 + 2
+
+  return svgIcon(`
+    <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
+      <circle
+        cx="${size / 2}"
+        cy="${size / 2}"
+        r="${radius}"
+        fill="${markerColors(0.5)[0]}"
+        stroke="white"
+        stroke-width="1"
+      />
+    </svg>
+  `, size)
+}
+
+export function markerIcon(feature, mode) {
+  switch (mode) {
+    case 'places':
+      return placeIcon(feature)
+
+    case 'saints':
+    case 'people':
+    case 'cults':
+    case 'advanced':
+      return countIcon(feature)
+
+    default:
+      return countIcon(feature)
+  }
+}
+
 export function placeIcon(feature) {
   const props = feature.properties || feature
   const placeType = props.place_type_parent

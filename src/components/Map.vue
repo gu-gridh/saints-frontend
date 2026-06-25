@@ -27,7 +27,7 @@ import DateSlider from '@/components/DateSlider.vue'
 import { map as fetchMap } from '@/assets/db'
 import { mapCenter as defaultMapCenter } from '@/assets/config'
 import { buildMapParams, onFeatureClick } from '@/assets/query'
-import { placeIcon } from '@/assets/map'
+import { markerIcon } from '@/assets/map'
 
 const store = useSaintsStore()
 const router = useRouter()
@@ -133,10 +133,10 @@ async function createQueryLayer() {
 
   return L.geoJSON(geojson, {
     pointToLayer(feature, latlng) {
-      return L.marker(latlng, {
-        icon: placeIcon(feature),
-      })
-    },
+    return L.marker(latlng, {
+      icon: markerIcon(feature, mode.value),
+    })
+  },
 
     onEachFeature(feature, leafletLayer) {
       const props = feature.properties || {}
@@ -155,32 +155,36 @@ async function createQueryLayer() {
 
     leafletLayer.on('click', () => {
         onFeatureClick(props, {
-            router,
-            layer: mode.value,
+          router,
+          mode: mode.value,
         })
     })
     },
   })
 }
 
+let rebuildId = 0
+
 async function rebuildQueryLayer() {
   if (!map.value) return
 
+  const currentRebuildId = ++rebuildId
+
   if (queryLayer.value) {
+    queryLayer.value.clearLayers()
     map.value.removeLayer(queryLayer.value)
+    queryLayer.value = null
   }
 
-  queryLayer.value = await createQueryLayer()
+  const newLayer = await createQueryLayer()
+
+  if (currentRebuildId !== rebuildId) {
+    newLayer.clearLayers()
+    return
+  }
+
+  queryLayer.value = newLayer
   queryLayer.value.addTo(map.value)
-}
-
-function centerMap(lon, lat) {
-  if (!map.value) return
-
-  map.value.setView([lat, lon], zoom.value || defaultMapCenter.zoom, {
-    animate: true,
-    duration: 0.25,
-  })
 }
 
 function handleMapClick(event) {
@@ -287,6 +291,13 @@ watch(
     await rebuildQueryLayer()
   },
   { deep: true }
+)
+
+watch(
+  mode,
+  async () => {
+    await rebuildQueryLayer()
+  }
 )
 
 onMounted(async () => {
