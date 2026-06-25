@@ -1,10 +1,12 @@
 <script setup>
 import { computed } from 'vue'
-import { useRoute, RouterLink, RouterView } from 'vue-router'
+import { useRoute, useRouter, RouterLink, RouterView } from 'vue-router'
 import Footer from '@/components/Footer.vue'
-
+  
 const route = useRoute()
+const router = useRouter()
 const showFooter = computed(() => !route.meta.hideFooter)
+
 </script>
 
 <template>

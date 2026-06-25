@@ -27,6 +27,7 @@ import DateSlider from '@/components/DateSlider.vue'
 import { map as fetchMap } from '@/assets/db'
 import { mapCenter as defaultMapCenter } from '@/assets/config'
 import { buildMapParams, onFeatureClick } from '@/assets/query'
+import { placeIcon } from '@/assets/map'
 
 const store = useSaintsStore()
 const router = useRouter()
@@ -87,7 +88,18 @@ async function fetchPlacesGeoJson() {
     const params = buildMapParams(query.value, mapArgs.value)
     const response = await fetchMap(params.toString())
 
-    return response.data
+    if (response?.type === 'FeatureCollection') {
+      return response
+    }
+
+    if (response?.results?.type === 'FeatureCollection') {
+      return response.results
+    }
+
+    return {
+      type: 'FeatureCollection',
+      features: [],
+    }
   } finally {
     setLoading(false)
   }
@@ -99,7 +111,7 @@ async function createQueryLayer() {
   return L.geoJSON(geojson, {
     pointToLayer(feature, latlng) {
       return L.marker(latlng, {
-        icon: createDefaultIcon(),
+        icon: placeIcon(feature),
       })
     },
 
@@ -121,7 +133,7 @@ async function createQueryLayer() {
     leafletLayer.on('click', () => {
         onFeatureClick(props, {
             router,
-            mode: mode.value,
+            layer: mode.value,
         })
     })
     },
@@ -339,5 +351,10 @@ main {
   border: 5px solid rgba(180, 180, 180, 0.6);
   border-top-color: rgba(0, 0, 0, 0.6);
   animation: spinner 0.6s linear infinite;
+}
+
+.leaflet-shape-icon {
+  background: transparent;
+  border: none;
 }
 </style>

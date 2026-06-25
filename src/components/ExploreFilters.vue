@@ -20,7 +20,7 @@
 <script setup>
 import { ref } from 'vue'
 import ExploreMenu from '@/components/ExploreMenu.vue'
-//import AdvancedSearch from '@/components/AdvancedSearch.vue'
+import AdvancedSearch from '@/components/AdvancedSearch.vue'
 import { useSaintsStore } from '@/stores/mode'
 
 const store = useSaintsStore()
