@@ -28,6 +28,7 @@ const router = createRouter({
     },
     {
   path: '/explore',
+  name: 'explore',
   component: () => import('../views/ExploreView.vue'),
   children: [
     {

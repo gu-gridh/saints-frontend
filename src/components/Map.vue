@@ -87,7 +87,18 @@ async function fetchPlacesGeoJson() {
     const params = buildMapParams(query.value, mapArgs.value)
     const response = await fetchMap(params.toString())
 
-    return response.data
+    if (response?.type === 'FeatureCollection') {
+      return response
+    }
+
+    if (response?.results?.type === 'FeatureCollection') {
+      return response.results
+    }
+
+    return {
+      type: 'FeatureCollection',
+      features: [],
+    }
   } finally {
     setLoading(false)
   }
@@ -121,7 +132,7 @@ async function createQueryLayer() {
     leafletLayer.on('click', () => {
         onFeatureClick(props, {
             router,
-            mode: mode.value,
+            layer: mode.value,
         })
     })
     },

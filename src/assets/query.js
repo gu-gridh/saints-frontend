@@ -208,7 +208,7 @@ export function buildMapParams(queryState, mapArgs = {}) {
   const modeState = queryState[mode] || {}
   const params = new URLSearchParams()
 
-  params.set('mode', mode)
+  params.set('layer', mode)
 
   if (mapArgs.zoom != null) {
     params.set('zoom', mapArgs.zoom)
@@ -233,26 +233,20 @@ export function routes() {
   return Object.entries(definitions).flatMap(([key, definition]) => {
     const result = []
 
-    const explore = definition.routes?.explore
-    const show = definition.routes?.show
-
-    if (explore?.component) {
+    if (definition.routes?.explore?.component) {
       result.push({
         path: key,
-        name: explore.name,
-        component: explore.component,
+        name: definition.routes.explore.name,
+        component: definition.routes.explore.component,
       })
     }
 
-    if (show?.component) {
+    if (definition.routes?.show?.component) {
       result.push({
         path: `${key}/:id`,
-        name: show.name,
-        component: show.component,
-        props: route => ({
-          id: route.params.id,
-          ...(show.props || {}),
-        }),
+        name: definition.routes.show.name,
+        component: definition.routes.show.component,
+        props: definition.routes.show.props || true,
       })
     }
 
