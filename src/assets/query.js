@@ -210,7 +210,7 @@ export function buildMapParams(queryState, mapArgs = {}) {
 
   const layerMap = {
     places: 'place',
-    saints: 'saint',
+    saints: 'saints',
     cults: 'cult',
     people: 'people',
     advanced: 'cult',
