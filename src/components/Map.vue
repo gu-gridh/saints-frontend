@@ -58,10 +58,26 @@ defineExpose({
   resizeMap,
 })
 
-const mapArgs = computed(() => ({
-  zoom: Math.ceil(currentZoom.value),
-  range: mapDateRange.value ? mapDateRange.value.join(',') : undefined,
-}))
+const mapArgs = computed(() => {
+  let bbox
+
+  if (map.value) {
+    const bounds = map.value.getBounds()
+
+    bbox = [
+      bounds.getWest(),
+      bounds.getSouth(),
+      bounds.getEast(),
+      bounds.getNorth(),
+    ].join(',')
+  }
+
+  return {
+    zoom: Math.ceil(currentZoom.value),
+    range: mapDateRange.value?.join(','),
+    bbox,
+  }
+})
 
 function setLoading(value) {
   if (typeof store.setIsLoading === 'function') {
@@ -71,21 +87,28 @@ function setLoading(value) {
   }
 }
 
-function createDefaultIcon() {
-  return L.icon({
-    iconUrl: '/icons/marker-white.png',
-    iconSize: [26, 26],
-    iconAnchor: [13, 26],
-    popupAnchor: [0, -26],
-    tooltipAnchor: [0, -26],
-  })
+function getMapArgs() {
+  const bounds = map.value?.getBounds()?.pad(0.25)
+
+  return {
+    zoom: Math.ceil(map.value?.getZoom() || currentZoom.value),
+    range: mapDateRange.value?.join(','),
+    bbox: bounds
+      ? [
+          bounds.getWest(),
+          bounds.getSouth(),
+          bounds.getEast(),
+          bounds.getNorth(),
+        ].join(',')
+      : undefined,
+  }
 }
 
 async function fetchPlacesGeoJson() {
   setLoading(true)
 
   try {
-    const params = buildMapParams(query.value, mapArgs.value)
+    const params = buildMapParams(query.value, getMapArgs())
     const response = await fetchMap(params.toString())
 
     if (response?.type === 'FeatureCollection') {

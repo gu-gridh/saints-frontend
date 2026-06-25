@@ -208,7 +208,19 @@ export function buildMapParams(queryState, mapArgs = {}) {
   const modeState = queryState[mode] || {}
   const params = new URLSearchParams()
 
-  params.set('layer', mode)
+  const layerMap = {
+    places: 'place',
+    saints: 'saint',
+    cults: 'cult',
+    people: 'person',
+    advanced: 'cult',
+  }
+
+  params.set('layer', layerMap[mode] || mode)
+
+  if (mapArgs.bbox) {
+    params.set('bbox', mapArgs.bbox)
+  }
 
   if (mapArgs.zoom != null) {
     params.set('zoom', mapArgs.zoom)
