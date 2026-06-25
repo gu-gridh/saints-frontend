@@ -64,8 +64,24 @@ const props = defineProps({
   text-align:justify;
 }
 
-.content-half , h2.home {
+.content-half {
   max-width: 50%;
+}
+
+h1.home {
+  font-family: 'Antic Didone', serif;
+  font-style: normal;
+  font-weight: 100;
+  padding: 0 0 0 0;
+  font-size: 150px;
+  line-height: .86;
+  margin-bottom: 10px;
+  width: 550px;
+  letter-spacing: -5px;
+}
+
+h2.home {
+  margin-bottom: 0px;
 }
 
 </style>

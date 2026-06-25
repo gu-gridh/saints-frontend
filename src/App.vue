@@ -15,7 +15,7 @@ const showFooter = computed(() => !route.meta.hideFooter)
     <RouterLink to="/introduction" class="main-menu-link">Introduction</RouterLink>
     <RouterLink to="/explore" class="main-menu-link">Explore</RouterLink>
     <RouterLink to="/project" class="main-menu-link">Project</RouterLink>
-    <RouterLink to="/bibliography" class="main-menu-link">Bibliography</RouterLink>
+    <RouterLink to="/sources" class="main-menu-link">Bibliography</RouterLink>
   </nav>
   <RouterView />
   <Footer v-if="showFooter" />
