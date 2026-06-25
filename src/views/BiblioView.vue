@@ -4,7 +4,7 @@ import { useCmsPage } from '@/composables/useCmsPage'
 import CmsContent from '@/components/CmsContent.vue'
 import BiblioList from '@/components/BiblioList.vue'
 
-const { page, loading, error } = useCmsPage(computed(() => 'bibliography'))
+const { page, loading, error } = useCmsPage(computed(() => 'sources'))
 </script>
 
 <template>
