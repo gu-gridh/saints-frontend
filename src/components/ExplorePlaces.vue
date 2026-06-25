@@ -220,7 +220,7 @@ watch(freetext, async () => {
 onMounted(load)
 </script>
 
-<style scoped>
+<style>
 .too-many {
   margin-block: 0.5em;
   font-style: italic;
