@@ -208,7 +208,19 @@ export function buildMapParams(queryState, mapArgs = {}) {
   const modeState = queryState[mode] || {}
   const params = new URLSearchParams()
 
-  params.set('mode', mode)
+  const layerMap = {
+    places: 'place',
+    saints: 'saints',
+    cults: 'cult',
+    people: 'people',
+    advanced: 'cult',
+  }
+
+  params.set('layer', layerMap[mode] || mode)
+
+  if (mapArgs.bbox) {
+    params.set('bbox', mapArgs.bbox)
+  }
 
   if (mapArgs.zoom != null) {
     params.set('zoom', mapArgs.zoom)
@@ -230,25 +242,28 @@ export function buildMapParams(queryState, mapArgs = {}) {
 }
 
 export function routes() {
-  return Object.keys(definitions).reduce((routes, key) => {
-    const definition = definitions[key]
+  return Object.entries(definitions).flatMap(([key, definition]) => {
+    const result = []
 
-    if (definition.routes?.explore) {
-      routes.push({
+    if (definition.routes?.explore?.component) {
+      result.push({
         path: key,
-        ...definition.routes.explore,
+        name: definition.routes.explore.name,
+        component: definition.routes.explore.component,
       })
     }
 
-    if (definition.routes?.show) {
-      routes.push({
+    if (definition.routes?.show?.component) {
+      result.push({
         path: `${key}/:id`,
-        ...definition.routes.show,
+        name: definition.routes.show.name,
+        component: definition.routes.show.component,
+        props: definition.routes.show.props || true,
       })
     }
 
-    return routes
-  }, [])
+    return result
+  })
 }
 
 export function getFeatureId(featureOrProps) {

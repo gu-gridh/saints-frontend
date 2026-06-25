@@ -5,7 +5,7 @@
     </pane>
 
     <pane :size="50" class="explore-pane">
-      <ExploreMenu />
+      <!-- <ExploreMenu /> -->
       <slot />
     </pane>
   </splitpanes>
