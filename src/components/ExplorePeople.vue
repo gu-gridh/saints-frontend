@@ -34,13 +34,6 @@
       :colors="colors"
     />
 
-    <OptionList
-      class="search-results-mobile"
-      :options="peopleOptionsMobile"
-      :max="0"
-      @input="onPersonSelectedMobile"
-    />
-
     <div v-if="peopleNum > max" class="my-2 nav">
       <button class="frmbtn" :disabled="page <= 1" @click="goBack">←</button>
 
