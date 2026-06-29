@@ -89,20 +89,14 @@ export function countIcon(feature) {
   `, size)
 }
 
-export function markerIcon(feature, mode) {
-  switch (mode) {
-    case 'places':
-      return placeIcon(feature)
-
-    case 'saints':
-    case 'people':
-    case 'cults':
-    case 'advanced':
-      return countIcon(feature)
-
-    default:
-      return countIcon(feature)
+export function markerIcon(feature, mode, selectedIds = []) {
+  if (mode === 'places') {
+    return placeIcon(feature)
   }
+  if (selectedIds.length > 1) {
+    return pieIcon(feature, selectedIds)
+  }
+  return countIcon(feature)
 }
 
 export function placeIcon(feature) {
@@ -131,4 +125,70 @@ export function placeIcon(feature) {
   }
 
   return iconMap[placeType] || circle(blue)
+}
+
+function polarToCartesian(cx, cy, r, angle) {
+  const radians = (angle - 90) * Math.PI / 180
+
+  return {
+    x: cx + r * Math.cos(radians),
+    y: cy + r * Math.sin(radians),
+  }
+}
+
+function pieSlicePath(cx, cy, r, startAngle, endAngle) {
+  const start = polarToCartesian(cx, cy, r, endAngle)
+  const end = polarToCartesian(cx, cy, r, startAngle)
+  const largeArcFlag = endAngle - startAngle <= 180 ? 0 : 1
+
+  return [
+    `M ${cx} ${cy}`,
+    `L ${start.x} ${start.y}`,
+    `A ${r} ${r} 0 ${largeArcFlag} 0 ${end.x} ${end.y}`,
+    'Z',
+  ].join(' ')
+}
+
+export function pieIcon(feature, selectedIds = []) {
+  const props = feature.properties || feature
+  const ids = props.ids || {}
+
+  const values = selectedIds.map(id => ids[String(id)] || 0)
+  const total = values.reduce((sum, value) => sum + value, 0)
+
+  if (!total) {
+    return countIcon(feature)
+  }
+
+  const radius = markerSizeFromCount(total)
+  const size = radius * 2 + 4
+  const cx = size / 2
+  const cy = size / 2
+  const colors = markerColors(0.7)
+
+  let currentAngle = 0
+
+  const slices = values.map((value, index) => {
+    if (!value) return ''
+
+    const angle = (value / total) * 360
+    const path = pieSlicePath(cx, cy, radius, currentAngle, currentAngle + angle)
+    currentAngle += angle
+
+    return `<path d="${path}" fill="${colors[index % colors.length]}" />`
+  }).join('')
+
+  return svgIcon(`
+    <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
+      ${slices}
+      <circle
+        cx="${cx}"
+        cy="${cy}"
+        r="${radius}"
+        fill="none"
+        stroke="white"
+        stroke-width="1"
+      />
+    </svg>
+  `, size)
 }
