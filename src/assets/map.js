@@ -153,18 +153,39 @@ export function pieIcon(feature, selectedIds = []) {
   const props = feature.properties || feature
   const ids = props.ids || {}
 
-  const values = selectedIds.map(id => ids[String(id)] || 0)
+  const values = selectedIds.map(id => Number(ids[String(id)] || 0))
   const total = values.reduce((sum, value) => sum + value, 0)
+  const colors = markerColors(0.7)
 
   if (!total) {
     return countIcon(feature)
   }
 
+  const nonZeroValues = values
+    .map((value, index) => ({ value, index }))
+    .filter(item => item.value > 0)
+
   const radius = markerSizeFromCount(total)
   const size = radius * 2 + 4
   const cx = size / 2
   const cy = size / 2
-  const colors = markerColors(0.7)
+
+  if (nonZeroValues.length === 1) {
+    const color = colors[nonZeroValues[0].index % colors.length]
+
+    return svgIcon(`
+      <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
+        <circle
+          cx="${cx}"
+          cy="${cy}"
+          r="${radius}"
+          fill="${color}"
+          stroke="white"
+          stroke-width="1"
+        />
+      </svg>
+    `, size)
+  }
 
   let currentAngle = 0
 
