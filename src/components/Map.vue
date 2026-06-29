@@ -128,6 +128,30 @@ async function fetchPlacesGeoJson() {
   }
 }
 
+function getSelectedMarkerIds() {
+  if (mode.value === 'saints') {
+    return store.query.saints.saints || []
+  }
+
+  if (mode.value === 'people') {
+    return store.query.people.people || []
+  }
+
+  if (mode.value === 'cults') {
+    return (
+      store.query.cults.filterType?.length
+        ? store.query.cults.filterType
+        : store.query.cults.types?.length
+          ? store.query.cults.types
+          : store.query.cults.areas?.length
+            ? store.query.cults.areas
+            : []
+    )
+  }
+
+  return []
+}
+
 async function createQueryLayer() {
   const geojson = await fetchPlacesGeoJson()
 
@@ -143,7 +167,7 @@ async function createQueryLayer() {
             ? store.query.cults.types
             : []
     return L.marker(latlng, {
-      icon: markerIcon(feature, mode.value, selectedIds),
+      icon: markerIcon(feature, mode.value, getSelectedMarkerIds()),
     })
   },
 
