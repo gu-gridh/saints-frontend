@@ -139,6 +139,16 @@ export const useSaintsStore = defineStore('saints', () => {
     bumpRefreshLayers()
   }
 
+      function resetMode(modeName) {
+      const initial = getInitialQueryState()
+
+      query.value[modeName] = structuredClone(initial[modeName])
+
+      if (mode.value === modeName) {
+        bumpRefreshLayers()
+      }
+    }
+
   function getSelectedMarkerIds() {
     if (mode.value === 'saints') {
       return query.value.saints.saints || []
@@ -205,5 +215,7 @@ export const useSaintsStore = defineStore('saints', () => {
     clearCults,
 
     getSelectedMarkerIds,
+
+    resetMode,
   }
 })

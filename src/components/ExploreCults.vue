@@ -157,6 +157,15 @@ const feastDayFreetext = ref('')
 
 const searchDateRange = computed(() => store.searchDateRange)
 
+function onCultSelected(selected) {
+  const id = Array.isArray(selected)
+    ? selected[selected.length - 1]
+    : selected
+  if (id) {
+    router.push(`/explore/cults/${id}`)
+  }
+}
+
 const cultsOptions = computed(() => {
   return cults.value.map(cult => ({
     key: cult.id,
@@ -203,7 +212,6 @@ async function load() {
 
   await searchCults()
 }
-
 async function searchCults() {
   const conds = {
     mini: '',
@@ -217,19 +225,38 @@ async function searchCults() {
     conds.type = typeFilter.join(',')
   }
 
+  if (diocesesSelected.value) {
+    conds.med_diocese = diocesesSelected.value
+  }
+
+  if (extantValue.value === 'Extant') {
+    conds.extant = 'Extant'
+  } else if (extantValue.value === 'Lost') {
+    conds.extant = 'Lost'
+  }
+
+  if (uncertainty.value === true) {
+    conds.uncertainty = 'False'
+  }
+
+  if (feastDayFreetext.value) {
+    conds.search = feastDayFreetext.value
+    conds.feastday = true
+  }
+
+  if (searchDateRange.value != null) {
+    conds.range = Array.isArray(searchDateRange.value)
+      ? searchDateRange.value.join(',')
+      : searchDateRange.value
+  }
+
+  console.log('cult query', conds)
+
   const result = await get('cult', conds)
 
   cults.value = result?.results || []
   cultsNum.value = result?.count || 0
   totalPages.value = Math.ceil(cultsNum.value / max)
-}
-
-function onCultSelected(selected) {
-  const id = Array.isArray(selected) ? selected[selected.length - 1] : selected
-
-  if (id) {
-    router.push(`/explore/cults/${id}`)
-  }
 }
 
 async function getMediumTypes() {
@@ -264,28 +291,25 @@ async function getSpecificFilterTypes() {
 }
 
 function clearAll() {
-  typesSelected.value = []
+  page.value = 1
+
+  store.resetMode('cults')
+  store.setSearchDateRange(null)
+  store.setMapDateRange(null)
+
   areasSelected.value = []
-  diocesesSelected.value = ''
+  typesSelected.value = []
   filterTypesSelected.value = []
+  diocesesSelected.value = ''
   freetext.value = ''
   feastDayFreetext.value = ''
   uncertainty.value = false
   extantValue.value = 'All'
   showRadio.value = false
-  page.value = 1
 
-  if (store.query?.cults) {
-    store.query.cults.types = []
-    store.query.cults.areas = []
-    store.query.cults.filterType = []
-    store.query.cults.dioceseState = null
-    store.query.cults.extant = null
-  }
-
-  componentKey.value += 1
-  componentKey2.value += 1
-  componentKey3.value += 1
+  componentKey.value++
+  componentKey2.value++
+  componentKey3.value++
 
   searchCults()
 }
