@@ -133,8 +133,17 @@ async function createQueryLayer() {
 
   return L.geoJSON(geojson, {
     pointToLayer(feature, latlng) {
+
+    const selectedIds =
+      mode.value === 'saints'
+        ? store.query.saints.saints
+        : mode.value === 'people'
+          ? store.query.people.people
+          : mode.value === 'cults'
+            ? store.query.cults.types
+            : []
     return L.marker(latlng, {
-      icon: markerIcon(feature, mode.value),
+      icon: markerIcon(feature, mode.value, selectedIds),
     })
   },
 
@@ -167,7 +176,6 @@ let rebuildId = 0
 
 async function rebuildQueryLayer() {
   if (!map.value) return
-
   const currentRebuildId = ++rebuildId
 
   if (queryLayer.value) {
@@ -175,9 +183,7 @@ async function rebuildQueryLayer() {
     map.value.removeLayer(queryLayer.value)
     queryLayer.value = null
   }
-
   const newLayer = await createQueryLayer()
-
   if (currentRebuildId !== rebuildId) {
     newLayer.clearLayers()
     return
