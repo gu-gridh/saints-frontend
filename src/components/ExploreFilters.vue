@@ -21,10 +21,16 @@
 import { ref } from 'vue'
 import ExploreMenu from '@/components/ExploreMenu.vue'
 import AdvancedSearch from '@/components/AdvancedSearch.vue'
-import { useSaintsStore } from '@/stores/mode'
 
-const store = useSaintsStore()
 const showAdvanced = ref(false)
+
+function advSearch() {
+  showAdvanced.value = true
+}
+
+function closeSearch() {
+  showAdvanced.value = false
+}
 </script>
 
 <style scoped>
@@ -37,7 +43,7 @@ const showAdvanced = ref(false)
   justify-content: space-between;
   align-items: center;
 }
-/* make a round smaller close button */
+
 .closebtn {
   background-color: #F6B335;
   color: white;
@@ -74,7 +80,7 @@ const showAdvanced = ref(false)
 }
 .advanced-icon{
     border-radius:50%;
-    background:url(./assets/control.png);
+    background:url(@/assets/icons/control.png);
     background-size: 60%;
     background-position:center;
     background-repeat: no-repeat;
