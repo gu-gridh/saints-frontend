@@ -16,6 +16,11 @@ export const useSaintsStore = defineStore('saints', () => {
   const isLoading = ref(false)
   const updateSize = ref(0)
   const refreshLayers = ref(0)
+  const visualObj = ref(null)
+
+  function setVisualObj(value) {
+    visualObj.value = value
+  }
   
 
   function bumpUpdateSize() {
@@ -245,5 +250,7 @@ export const useSaintsStore = defineStore('saints', () => {
     resetMode,
     setAdvancedSearch,
     clearAdvancedSearch,
+    visualObj,
+    setVisualObj,
   }
 })

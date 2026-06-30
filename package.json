@@ -12,6 +12,7 @@
     "@vueform/slider": "^2.1.10",
     "@wslyhbb/vue3-tags-input": "^4.0.1",
     "leaflet": "^1.9.4",
+    "openseadragon": "^6.0.2",
     "pinia": "^3.0.4",
     "splitpanes": "^4.1.2",
     "vue": "^3.5.38",
