@@ -16,6 +16,7 @@ export const useSaintsStore = defineStore('saints', () => {
   const isLoading = ref(false)
   const updateSize = ref(0)
   const refreshLayers = ref(0)
+  
 
   function bumpUpdateSize() {
     updateSize.value += 1
@@ -175,6 +176,31 @@ export const useSaintsStore = defineStore('saints', () => {
     return []
   }
 
+  //advanced search
+  function setAdvancedSearch(value) {
+    query.value.advanced = {
+      ...query.value.advanced,
+      ...value,
+    }
+    setMode('advanced')
+    bumpRefreshLayers()
+  }
+
+  function clearAdvancedSearch() {
+    query.value.advanced = {
+      cultType: [],
+      placeType: [],
+      personType: [],
+      placeTypes: [],
+      personName: [],
+      dioceseState: null,
+    }
+
+    if (mode.value === 'advanced') {
+      bumpRefreshLayers()
+    }
+  }
+
   return {
     mode,
     query,
@@ -217,5 +243,7 @@ export const useSaintsStore = defineStore('saints', () => {
     getSelectedMarkerIds,
 
     resetMode,
+    setAdvancedSearch,
+    clearAdvancedSearch,
   }
 })
