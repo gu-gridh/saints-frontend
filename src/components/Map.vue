@@ -10,6 +10,7 @@
       class="layer-ctrl"
       @mouseenter="showLegend"
       @mouseleave="hideLegend"
+      v-show="mode === 'places'"
     >
 
       <button
@@ -382,6 +383,13 @@ watch(zoom, newZoom => {
     animate: true,
   })
 })
+
+function centerMap(lon, lat) {
+  if (!map.value) return
+  map.value.setView([lat, lon], map.value.getZoom(), {
+    animate: true,
+  })
+}
 
 watch(mapCenter, value => {
   if (!value) return
