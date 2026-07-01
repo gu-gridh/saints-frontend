@@ -10,13 +10,21 @@ export const useSaintsStore = defineStore('saints', () => {
 
   const mapDateRange = ref(null)
   const searchDateRange = ref(null)
-  const mapCenter = ref(null)
-  const zoom = ref(null)
 
   const isLoading = ref(false)
   const updateSize = ref(0)
   const refreshLayers = ref(0)
   const visualObj = ref(null)
+  const START_CENTER = [59.8996, 17.6322]
+  const START_ZOOM = 8
+
+  const mapCenter = ref(START_CENTER)
+  const zoom = ref(START_ZOOM)
+
+  function resetMapView() {
+    mapCenter.value = START_CENTER
+    zoom.value = START_ZOOM
+  }
 
   function setVisualObj(value) {
     visualObj.value = value
@@ -252,5 +260,7 @@ export const useSaintsStore = defineStore('saints', () => {
     clearAdvancedSearch,
     visualObj,
     setVisualObj,
+
+    resetMapView,
   }
 })

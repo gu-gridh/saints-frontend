@@ -118,27 +118,21 @@ function legendColor(color) {
 
 function legendShape(icon) {
   const color = legendColor(icon.color)
-
   if (icon.shape === 'square') {
     return `<svg viewBox="0 0 20 20"><rect width="14" height="14" x="3" y="3" fill="${color}" /></svg>`
   }
-
   if (icon.shape === 'circle') {
     return `<svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="${color}" /></svg>`
   }
-
   if (icon.shape === 'triangle') {
     return `<svg viewBox="0 0 20 20"><polygon points="10,2 2,18 18,18" fill="${color}" /></svg>`
   }
-
   if (icon.shape === 'triangleDown') {
     return `<svg viewBox="0 0 20 20"><polygon points="2,2 18,2 10,18" fill="${color}" /></svg>`
   }
-
   if (icon.shape === 'star') {
     return `<svg viewBox="0 0 20 20"><polygon points="10,2 12,8 18,8 13,12 15,18 10,14 5,18 7,12 2,8 8,8" fill="${color}" /></svg>`
   }
-
   return ''
 }
 

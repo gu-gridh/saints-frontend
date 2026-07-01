@@ -1,5 +1,5 @@
 <template>
-  <div id="explore-type-menu" @click="startMap">
+  <div id="explore-type-menu" @click="resetMap">
     <router-link to="/explore/places" class="item type-places">
       <Square class="img-container">
         <img src="@/assets/img/places.jpg" />
@@ -7,21 +7,21 @@
       <div class="label">Places</div>
     </router-link>
 
-    <router-link to="/explore/saints" class="item type-saints">
+    <router-link to="/explore/saints" class="item type-saints" @click="resetMap">
       <Square class="img-container">
         <img src="@/assets/img/saints.jpg" />
       </Square>
       <div class="label">Saints</div>
     </router-link>
 
-    <router-link to="/explore/cults" class="item type-cults">
+    <router-link to="/explore/cults" class="item type-cults" @click="resetMap">
       <Square class="img-container">
         <img src="@/assets/img/manifestations.jpg" />
       </Square>
       <div class="label">Manifestations</div>
     </router-link>
 
-    <router-link to="/explore/people" class="item type-people">
+    <router-link to="/explore/people" class="item type-people" @click="resetMap">
       <Square class="img-container">
         <img src="@/assets/img/people.jpg" />
       </Square>
@@ -32,6 +32,13 @@
 
 <script setup>
 import Square from './Square.vue'
+import { useSaintsStore } from '@/stores/mode.js'
+
+const saintsStore = useSaintsStore()
+
+function resetMap() {
+  saintsStore.resetMapView()
+}
 
 </script>
 
