@@ -50,7 +50,7 @@ function closeSearch() {
   border: none;
   border-radius: 50%;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 15px;
   width: 25px;
   height: 25px;
   display: flex;
