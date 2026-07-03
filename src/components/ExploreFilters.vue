@@ -73,9 +73,9 @@ function closeSearch() {
     cursor:pointer;
 }
 .button-label{
-    font-family:sans-serif;
-    font-weight:200;
-    font-size: 14px;
+  font-family: sans-serif;
+  font: 1em sans-serif;ont-weight:200;
+  font-size: 14px;
    margin-right:10px;
 }
 .advanced-icon{

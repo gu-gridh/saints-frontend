@@ -54,6 +54,31 @@ h2 {
   position: relative;
 }
 
+body h4, th {
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin: 1rem 0 0.5rem;
+    color: #666;
+    line-height: 1.2;
+}
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6
+ {
+    margin-bottom: .5rem;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+input {
+  padding-block: 1px;
+    padding-inline: 2px;
+        margin: 0;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+
 @media (hover: hover) {
   a:hover {
     background-color: hsla(160, 100%, 37%, 0.2);
@@ -64,6 +89,7 @@ h2 {
   body {
     display: flex;
     place-items: center;
+    font-size: 1rem;
   }
 
   #app {

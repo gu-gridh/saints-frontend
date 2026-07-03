@@ -72,4 +72,14 @@ form button {
   cursor: pointer;
   transition: 0.1s;
 }
+
+.frminp
+ {
+    border: 0;
+    background: #eee;
+    border-radius: 0.5em;
+    padding: .2em 0.5em;
+    color: black;
+    width: 100%;
+}
 </style>

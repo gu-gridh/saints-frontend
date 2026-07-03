@@ -122,7 +122,8 @@ defineExpose({
   display: inline-block;
   padding: 0 0.5em;
   border-radius: 0.3em;
-  font-size: 90%;
+  font-size: 16.8px;
+  font-weight: 430;
   background-color: #e8e8e8;
   transition: all ease-in-out 200ms;
 }
