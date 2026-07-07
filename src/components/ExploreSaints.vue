@@ -32,13 +32,6 @@
       :colors="colors"
     />
 
-<!--     <OptionList
-      class="search-results-mobile results2"
-      :options="saintsOptionsMobile"
-      :max="0"
-      @input="onSaintSelectedMobile"
-    /> -->
-
     <div v-if="saintsNum > max" class="my-2 nav">
       <button class="frmbtn" :disabled="page <= 1" @click="goBack">←</button>
       <span>Page {{ page }} of {{ totalPages }} ({{ saintsNum }} items)</span>
@@ -74,18 +67,19 @@ const sexes = {
   Woman: { name: 'Female', id: 'Woman' },
 }
 
-const sexesSelected = ref([''])
 const personTypes = ref([])
-const personTypesSelected = ref([])
-const freetext = ref('')
 const saints = ref([])
-const saintsSelected = ref([])
 const page = ref(1)
 const saintsNum = ref(0)
 const componentKey = ref(0)
 const componentKey2 = ref(1)
 const totalPages = ref(0)
 const searchDateRange = computed(() => store.searchDateRange)
+
+const sexesSelected = ref([store.query.saints.sex || ''])
+const personTypesSelected = ref([...(store.query.saints.types || [])])
+const saintsSelected = ref([...(store.query.saints.saints || [])])
+const freetext = ref(store.query.saints.freetext || '')
 
 const saintsOptions = computed(() => {
   return saints.value
@@ -208,6 +202,12 @@ watch(freetext, async () => {
 
 watch(searchDateRange, async () => {
   page.value = 1
+  await searchSaints()
+})
+
+watch(freetext, async value => {
+  page.value = 1
+  store.query.saints.freetext = value
   await searchSaints()
 })
 

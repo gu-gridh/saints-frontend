@@ -86,7 +86,7 @@ input {
 
 @media (hover: hover) {
   a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
+    background-color: hsla(42, 90%, 55%, 0.2);
   }
 }
 
@@ -94,7 +94,7 @@ input {
   body {
     display: flex;
     place-items: center;
-    font-size: 1rem;
+    font-size: 1.2rem;
   }
 
   #app {

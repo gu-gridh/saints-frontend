@@ -4,10 +4,10 @@
       ← Back
     </button>
 
-    <h2>
+    <h3>
       {{ place.name }}
       <small v-if="place.place_type?.name">{{ place.place_type.name }}</small>
-    </h2>
+    </h3>
 
     <table class="data-table">
       <tbody>
@@ -246,6 +246,14 @@ watch(
 </script>
 
 <style>
+h3 {
+  font-family: Antic Didone;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 50px;
+    line-height: 1.1;
+    padding: 40px 0 40px 0;
+}
 table {
   border: 0;
   margin-block: 1rem;
@@ -309,7 +317,6 @@ table td {
 .grid {
   column-count: 2;
   column-gap: 5px; 
-  font-size: 17px !important;
   display: list-item;
   list-style-type: none;
 }
@@ -324,6 +331,52 @@ td.comment p {
     text-decoration: none;
 }
 
+td a:link, a:visited
+ {
+    color: #000;
+    text-decoration: none;
+}
 
+.hidden {
+  display: none;
+}
+
+
+.unc {
+  font-weight: bold;
+  display: inline;
+}
+
+span {
+  display: inline;
+}
+
+.grid-container {
+  display: block !important;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+p {
+  padding: 0;
+}
+
+td.comment p {
+  padding: 0 !important;
+}
+
+.frmbtn {
+  padding: 10px 15px 10px 10px;
+    background-color: #f6b335;
+    border: 1px solid #f6b335;
+    border-radius: 5px;
+    color: #090909;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+}
 
 </style>

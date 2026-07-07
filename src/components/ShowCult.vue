@@ -4,7 +4,7 @@
       ← Back
     </button>
 
-    <h2>
+    <h3>
       <span v-if="cult.cult_uncertainty" class="unc">*</span>
       {{ cult.cult_type?.name }}
 
@@ -16,7 +16,7 @@
         {{ cult.place.municipality }},
         {{ cult.place.place_type?.name }}
       </span>
-    </h2>
+    </h3>
 
 
 
@@ -331,14 +331,11 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<!-- <style scoped>
+<style>
 .hidden {
   display: none;
 }
 
-.close-btn {
-  float: right;
-}
 
 .unc {
   font-weight: bold;
@@ -353,11 +350,6 @@ span {
   display: block !important;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: auto auto;
-  padding: 10px;
-}
 
 p {
   padding: 0;
@@ -366,4 +358,4 @@ p {
 td.comment p {
   padding: 0 !important;
 }
-</style> -->
+</style>
