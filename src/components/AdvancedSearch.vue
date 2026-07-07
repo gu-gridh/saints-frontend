@@ -387,3 +387,157 @@ onMounted(() => {
   initDioceses();
 });
 </script>
+
+<style scoped>
+.ti-tag .searchbar-orange {
+  background-color: orange !important;
+}
+
+.searchbar-blue {
+  background-color: blue !important;
+}
+
+.searchbar-green {
+  background-color: green !important;
+
+}
+
+.searchbar-purple {
+  background-color: red !important;
+}
+#grid {
+  display: flex;
+  flex-wrap: wrap; /* Allows wrapping for responsiveness */
+  width: 100%; /* Ensures the grid takes up the full width */
+  gap: 5px; /* Adds space between columns */
+  box-sizing: border-box; /* Ensures padding doesn't affect width */
+  
+}
+
+#grid .col {
+    width: calc(50% - 5px); /* Adjusted for gap (10px from each side) */
+    padding-left: 0px !important;
+    margin-bottom: 10px;
+}
+
+#grid .searchbar {
+    width: 100%;
+    margin-bottom: 10px;
+}
+.ti-input {
+    border-radius: 5px;
+
+}
+
+.ti-tag {
+    border-radius: 5px;
+    background-color: #e8e8e8 !important;
+    color: black;
+    padding: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    display: inline-block;
+}
+.search {
+    text-align: end;
+
+}
+.searchbtn {
+    background-color: orange; 
+    color: black;
+    justify-self: end;
+    width: 100px;
+}
+.vue-tags-input .ti-tag {
+    color: black !important;
+    border-radius: 3px !important;
+}
+
+.ti-valid {
+    color: black;
+    border-radius: 3px;
+}
+.clearbtn {
+  background-color: rgb(188, 184, 184);
+  color: black;
+  width: 100px;
+  margin-bottom: 0px;
+}
+
+.btn-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end ;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    height: 40px;
+}
+
+.option-count {
+  padding-top: 0.5em;
+  font-style: italic;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.dropdown{
+    padding: 10px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 16px !important;
+    color: #333;
+    width: 100%;
+}
+.searchbtn {
+    background-color: #F6B335;
+}
+
+.btn-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 20px;
+  height: 40px;
+}
+
+.frmbtn {
+  width: 100px;
+  height: 36px;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.clearbtn {
+  background-color: rgb(188, 184, 184);
+  color: black;
+}
+
+.searchbtn {
+  background-color: #F6B335;
+  color: black;
+  border: 0;
+    border-radius: 0.3em;
+}
+
+@media (max-width: 768px) {
+  #grid .col {
+    width: 100%; /* Full width on small screens */
+  }
+  .searchbar {
+    width: 100%;
+    font-size: 14px;
+  }
+  .dropdown {
+    font-size: 14px;
+  }
+
+    .clearbtn {
+        font-size: 14px;
+    }
+    .searchbtn {
+        font-size: 14px;
+    }
+}
+</style>

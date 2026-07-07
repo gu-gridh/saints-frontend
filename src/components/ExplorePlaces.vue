@@ -233,18 +233,18 @@ onMounted(load)
 
 .dropdown {
   display: block;
-  padding: 0.3em;
+  padding: 0.5em;
   border: 1px solid #ccc;
   border-radius: 0.3em;
   font-size: 90%;
   background-color: #f8f8f8;
   transition: all ease-in-out 200ms;
-  width: 25%;
+  width: 30%;
   padding-bottom: 10px;
 }
 
 .clearbtn {
-  padding: 0 0.5em;
+  padding: 0.2em 0.5em;
   border: 0;
   border-radius: 0.3em;
   font-size: 90%;
@@ -253,6 +253,8 @@ onMounted(load)
   float: right;
   margin-bottom: 10px;
   color: black;
+  height: 30px;
+  cursor: pointer;
 }
 
 .moreBtn {
