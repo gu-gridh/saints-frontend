@@ -6,6 +6,7 @@
   margin: 0 auto;
   font-weight: normal;
   font-family: 'Barlow Condensed', sans-serif;
+  background-color: hsla(0, 0%, 96.1%, .9);
 }
 
 nav a {
@@ -92,9 +93,8 @@ input {
 
 @media (min-width: 1024px) {
   body {
-    display: flex;
-    place-items: center;
     font-size: 1.2rem;
+    height: 100vh;
   }
 
   #app {

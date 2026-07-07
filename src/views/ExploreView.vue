@@ -50,6 +50,5 @@ onUnmounted(() => {
 .explore-view {
     width: 100%;
     height: calc(100vh - 130px);
-    background-color: #f9f9f9;
 }
 </style>
