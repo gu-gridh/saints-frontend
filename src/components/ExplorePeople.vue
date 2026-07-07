@@ -71,12 +71,13 @@ const sexes = {
   Woman: { name: 'Female', id: 'Woman' },
 }
 
-const sexesSelected = ref([''])
+const sexesSelected = ref([store.query.people.sex || ''])
+const personTypesSelected = ref([...(store.query.people.types || [])])
+const freetext = ref(store.query.people.freetext || '')
+const peopleSelected = ref([...(store.query.people.people || [])])
+
 const personTypes = ref([])
-const personTypesSelected = ref([])
-const freetext = ref('')
 const people = ref([])
-const peopleSelected = ref([])
 const peopleNum = ref(0)
 const page = ref(1)
 const componentKey = ref(0)
@@ -151,11 +152,10 @@ function clearAll() {
   componentKey.value += 1
   componentKey2.value += 1
 
-  if (store.query?.people) {
-    store.query.people.sex = 'all'
-    store.query.people.types = []
-    store.query.people.people = []
-  }
+  store.query.people.sex = ''
+  store.query.people.types = []
+  store.query.people.people = []
+  store.query.people.freetext = ''
 
   searchPeople()
 }
@@ -221,6 +221,12 @@ watch(freetext, async () => {
 
 watch(searchDateRange, async () => {
   page.value = 1
+  await searchPeople()
+})
+
+watch(freetext, async value => {
+  page.value = 1
+  store.query.people.freetext = value
   await searchPeople()
 })
 

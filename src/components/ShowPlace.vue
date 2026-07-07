@@ -4,10 +4,10 @@
       ← Back
     </button>
 
-    <h2>
+    <h3>
       {{ place.name }}
       <small v-if="place.place_type?.name">{{ place.place_type.name }}</small>
-    </h2>
+    </h3>
 
     <table class="data-table">
       <tbody>
@@ -102,7 +102,6 @@
 
     <section>
       <h4>Cult manifestations located here</h4>
-
       <div v-if="cultrelation.length" class="grid">
         <div v-for="item in cultrelation" :key="item.id" class="grid-item">
           <RouterLink :to="`/explore/cults/${item.id}`">
@@ -129,9 +128,20 @@
       </div>
     </section>
 
+    <section v-if="place.relation_other_place.length > 0">
+      <h4>Related cult manifestations</h4>
+      <div class="grid">
+      <div v-for="relcult in place.relation_other_place" :key="relcult.cult.id">
+        <router-link :to="`/explore/cults/${relcult.cult.id}`">
+          <span v-if="relcult.place_uncertainty">* </span>{{ relcult.cult.cult_type }}
+          ({{ relcult.role.name}} <span v-if="relcult.cult.minyear != 0">{{ relcult.cult.minyear}})</span> 
+        </router-link>
+      </div>
+    </div>
+    </section>
+
     <section v-if="children.length">
       <h4>Structures in Place</h4>
-
       <div class="grid">
         <div v-for="item in children" :key="item.id">
           <RouterLink :to="`/explore/places/${item.id}`">
@@ -234,3 +244,139 @@ watch(
   { immediate: true }
 );
 </script>
+
+<style>
+h3 {
+  font-family: Antic Didone;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 50px;
+    line-height: 1.1;
+    padding: 40px 0 40px 0;
+}
+table {
+  border: 0;
+  margin-block: 1rem;
+}
+
+table tr:nth-of-type(even) {
+  background-color: unset;
+}
+
+table tr {
+  border-block: thin solid #eee;
+}
+
+th {
+  text-align: left;
+}
+
+table th,
+table td {
+  padding: 0.2em 0.5em 0.2em 0;
+  vertical-align: baseline;
+}
+
+.grid-container {
+  display: block !important;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.filter-toggle {
+  font-size: smaller;
+}
+
+.filter-toggle input[type="checkbox"] {
+  margin-right: 0.5em;
+}
+
+.filter-toggle label {
+  margin-bottom: 0;
+}
+
+.no-hits {
+  font-style: italic;
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto;
+  padding: 10px;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.grid {
+  column-count: 2;
+  column-gap: 5px; 
+  display: list-item;
+  list-style-type: none;
+}
+
+td.comment p {
+  padding: 0 !important;
+}
+
+.grid a:link, a:visited
+ {
+    color: #000;
+    text-decoration: none;
+}
+
+td a:link, a:visited
+ {
+    color: #000;
+    text-decoration: none;
+}
+
+.hidden {
+  display: none;
+}
+
+
+.unc {
+  font-weight: bold;
+  display: inline;
+}
+
+span {
+  display: inline;
+}
+
+.grid-container {
+  display: block !important;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+p {
+  padding: 0;
+}
+
+td.comment p {
+  padding: 0 !important;
+}
+
+.frmbtn {
+  padding: 10px 15px 10px 10px;
+    background-color: #f6b335;
+    border: 1px solid #f6b335;
+    border-radius: 5px;
+    color: #090909;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+</style>
