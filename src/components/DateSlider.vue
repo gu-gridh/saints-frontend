@@ -109,7 +109,7 @@ watch(
 /* Vueform slider CSS vars */
 .date-slider-slider {
   --slider-connect-bg: orange;
-  --slider-tooltip-bg: orange;
+  --slider-tooltip-bg: rgb(95, 93, 90);
   --slider-handle-ring-color: rgba(255, 128, 0, 0.25);
   --slider-height: 3px;
   --slider-handle-width: 14px;

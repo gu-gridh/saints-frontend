@@ -468,7 +468,7 @@ main {
 }
 
 .date-widget {
-  padding: 0.2rem 1rem 0.2rem 0;
+  padding: 0.5rem 1rem 0.5rem 1rem;
   background-color: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(4px);
   border-radius: 0.5rem;
@@ -568,5 +568,21 @@ main {
 
 .legend-name {
   white-space: nowrap;
+}
+
+:deep(.leaflet-bottom.leaflet-left) {
+
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  bottom: 30px; /* move it up */
+
+}
+
+:deep(.leaflet-bottom.leaflet-left .leaflet-control) {
+
+  margin: 0;
+
 }
 </style>

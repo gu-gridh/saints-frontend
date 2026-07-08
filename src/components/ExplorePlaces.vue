@@ -247,7 +247,7 @@ onMounted(load)
   padding: 0.2em 0.5em;
   border: 0;
   border-radius: 0.3em;
-  font-size: 90%;
+  font-size: 14px;
   background-color: #e8e8e8;
   transition: all ease-in-out 200ms;
   float: right;
