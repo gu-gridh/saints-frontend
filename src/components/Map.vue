@@ -52,6 +52,7 @@ import { mapCenter as defaultMapCenter } from '@/assets/config'
 import { buildMapParams, onFeatureClick } from '@/assets/query'
 import { markerIcon } from '@/assets/map'
 
+
 const store = useSaintsStore()
 const router = useRouter()
 
@@ -523,8 +524,8 @@ main {
 }
 
 .layer-switcher-button {
-  width: 38px;
-  height: 38px;
+  width: 34px;
+  height: 34px;
   border: 0;
   border-radius: 50%;
   background-color: rgba(236, 211, 211, 0.7);
@@ -570,19 +571,5 @@ main {
   white-space: nowrap;
 }
 
-:deep(.leaflet-bottom.leaflet-left) {
 
-  left: 50%;
-
-  transform: translateX(-50%);
-
-  bottom: 30px; /* move it up */
-
-}
-
-:deep(.leaflet-bottom.leaflet-left .leaflet-control) {
-
-  margin: 0;
-
-}
 </style>

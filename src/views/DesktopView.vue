@@ -50,4 +50,32 @@ function onPaneResized() {
   background: white;
 }
 
+:deep(.splitpanes__splitter) {
+  position: relative;
+  background: transparent;
+  width: 1px;
+  overflow: visible;
+  cursor: col-resize;
+}
+
+:deep(.splitpanes__splitter::before) {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -15px;
+  margin-top: -15px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: orange;
+  background-image: url('@/assets/icons/slide.png');
+  z-index: 1000;
+  background-size: 22px 22px;
+  background-repeat: no-repeat;
+  background-position: center;
+  box-shadow: 0 0 .5rem rgba(0, 0, 0, .3);
+}
+
+
 </style>
