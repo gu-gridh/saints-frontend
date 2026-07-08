@@ -1,6 +1,6 @@
 <template>
   <div v-if="cult" id="show" class="tabcontent">
-    <button v-if="store.mode !== 'advanced'" class="frmbtn" @click="router.back()">
+    <button v-if="store.mode !== 'advanced'" class="frmbtn" @click="goBack()">
       ← Back
     </button>
 
@@ -254,6 +254,7 @@ import { useRoute, useRouter } from "vue-router";
 
 import { useSaintsStore } from "@/stores/mode";
 import { show } from "@/assets/db";
+import { mapCenter as defaultMapCenter } from '@/assets/config'
 
 import Source from "@/components/Source.vue";
 import VisualGrid from "@/components/VisualGrid.vue";
@@ -266,6 +267,11 @@ const store = useSaintsStore();
 const cult = ref(null);
 
 const id = computed(() => route.params.id);
+
+function goBack() {
+  store.resetMapView()
+  router.back()
+}
 
 function centerCultOnMap() {
   const coordinates = cult.value?.place?.geometry?.coordinates;

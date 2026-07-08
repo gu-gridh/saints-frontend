@@ -1,6 +1,6 @@
 <template>
   <div v-if="person" id="show" class="tabcontent" :key="`${tb} ${id}`">
-    <button v-if="store.mode !== 'advanced'" class="frmbtn" @click="router.back()">
+    <button v-if="store.mode !== 'advanced'" class="frmbtn" @click="back()">
       ← Back
     </button>
 
@@ -151,6 +151,11 @@ const manifestations = ref([])
 
 const tb = 'person'
 const id = computed(() => route.params.id)
+
+function back() {
+  store.resetMapView()
+  router.back()
+}
 
 function convertDate(item) {
   if (item === '00-00' || item === '*') return ''

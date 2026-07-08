@@ -34,7 +34,7 @@
     </div>
 
     <div class="input-group">
-      <label for="diocese">Filter by Medieval Diocese</label>
+      <h4>Filter by Medieval Diocese</h4>
 
       <select v-model="diocesesSelected" class="dropdown" name="diocese">
         <option value="">All dioceses</option>
@@ -86,7 +86,6 @@
           <input type="checkbox" v-model="uncertainty">
         </label>
       </span>
-      <br>
     </div>
 
     <hr>
@@ -249,8 +248,6 @@ async function searchCults() {
       ? searchDateRange.value.join(',')
       : searchDateRange.value
   }
-
-  console.log('cult query', conds)
 
   const result = await get('cult', conds)
 
@@ -438,3 +435,13 @@ watch(feastDayFreetext, async () => {
 
 onMounted(load)
 </script>
+
+<style scoped>
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  margin-left: 0.5rem;
+}
+</style>

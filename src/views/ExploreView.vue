@@ -1,10 +1,15 @@
 <template>
   <div class="explore-view">
     <DesktopView v-if="!isMobile">
-      <RouterView />
+      <RouterView v-slot="{ Component }">
+        <component :is="Component" :key="route.fullPath" />
+      </RouterView>
     </DesktopView>
+
     <MobileView v-else>
-      <RouterView />
+      <RouterView v-slot="{ Component }">
+        <component :is="Component" :key="route.fullPath" />
+      </RouterView>
     </MobileView>
   </div>
 </template>
@@ -50,6 +55,5 @@ onUnmounted(() => {
 .explore-view {
     width: 100%;
     height: calc(100vh - 130px);
-    background-color: #f9f9f9;
 }
 </style>

@@ -462,6 +462,7 @@ onMounted(() => {
   color: black;
   width: 100px;
   margin-bottom: 0px;
+  font-size: 14px;
 }
 
 .btn-container {
@@ -509,16 +510,13 @@ onMounted(() => {
   box-sizing: border-box;
 }
 
-.clearbtn {
-  background-color: rgb(188, 184, 184);
-  color: black;
-}
 
 .searchbtn {
   background-color: #F6B335;
   color: black;
   border: 0;
-    border-radius: 0.3em;
+  border-radius: 0.3em;
+  font-size: 14px;
 }
 
 @media (max-width: 768px) {

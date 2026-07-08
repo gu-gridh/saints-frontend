@@ -55,6 +55,10 @@ function resetMap() {
   padding: 0.4rem;
   color: inherit;
 }
+
+.item .label {
+  text-decoration: none;
+}
 img {
   width: 100%;
   height: 100%;

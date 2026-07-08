@@ -52,6 +52,7 @@ import { mapCenter as defaultMapCenter } from '@/assets/config'
 import { buildMapParams, onFeatureClick } from '@/assets/query'
 import { markerIcon } from '@/assets/map'
 
+
 const store = useSaintsStore()
 const router = useRouter()
 
@@ -468,7 +469,7 @@ main {
 }
 
 .date-widget {
-  padding: 0.2rem 1rem 0.2rem 0;
+  padding: 0.5rem 1rem 0.5rem 1rem;
   background-color: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(4px);
   border-radius: 0.5rem;
@@ -523,8 +524,8 @@ main {
 }
 
 .layer-switcher-button {
-  width: 38px;
-  height: 38px;
+  width: 34px;
+  height: 34px;
   border: 0;
   border-radius: 50%;
   background-color: rgba(236, 211, 211, 0.7);
@@ -569,4 +570,6 @@ main {
 .legend-name {
   white-space: nowrap;
 }
+
+
 </style>

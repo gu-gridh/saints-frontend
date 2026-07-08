@@ -32,15 +32,16 @@ function onPaneResized() {
 }
 
 .split-container {
-  height: 90vh;   
-  margin: 16px;
+  height: 80vh;   
   border-radius: 16px;
   overflow: hidden; 
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 2rem rgba(0, 0, 0, .3);
 }
 
 .splitpanes {
   height: 100%;
+  border-radius: 20px;
+  
 }
 
 .explore-pane {
@@ -48,5 +49,33 @@ function onPaneResized() {
   overflow: auto;
   background: white;
 }
+
+:deep(.splitpanes__splitter) {
+  position: relative;
+  background: transparent;
+  width: 1px;
+  overflow: visible;
+  cursor: col-resize;
+}
+
+:deep(.splitpanes__splitter::before) {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -15px;
+  margin-top: -15px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: orange;
+  background-image: url('@/assets/icons/slide.png');
+  z-index: 1000;
+  background-size: 22px 22px;
+  background-repeat: no-repeat;
+  background-position: center;
+  box-shadow: 0 0 .5rem rgba(0, 0, 0, .3);
+}
+
 
 </style>
