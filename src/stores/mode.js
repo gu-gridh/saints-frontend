@@ -15,14 +15,14 @@ export const useSaintsStore = defineStore('saints', () => {
   const updateSize = ref(0)
   const refreshLayers = ref(0)
   const visualObj = ref(null)
-  const START_CENTER = [59.8996, 17.6322]
+  const START_CENTER = [17.6322, 59.8996]
   const START_ZOOM = 8
 
   const mapCenter = ref(START_CENTER)
   const zoom = ref(START_ZOOM)
 
   function resetMapView() {
-    mapCenter.value = START_CENTER
+    mapCenter.value = [...START_CENTER]
     zoom.value = START_ZOOM
   }
 

@@ -249,8 +249,6 @@ async function searchCults() {
       : searchDateRange.value
   }
 
-  console.log('cult query', conds)
-
   const result = await get('cult', conds)
 
   cults.value = result?.results || []

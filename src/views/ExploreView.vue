@@ -1,10 +1,15 @@
 <template>
   <div class="explore-view">
     <DesktopView v-if="!isMobile">
-      <RouterView />
+      <RouterView v-slot="{ Component }">
+        <component :is="Component" :key="route.fullPath" />
+      </RouterView>
     </DesktopView>
+
     <MobileView v-else>
-      <RouterView />
+      <RouterView v-slot="{ Component }">
+        <component :is="Component" :key="route.fullPath" />
+      </RouterView>
     </MobileView>
   </div>
 </template>

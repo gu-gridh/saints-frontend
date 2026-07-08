@@ -1,6 +1,6 @@
 <template>
   <div v-if="place" id="show" class="tabcontent">
-    <button v-if="store.mode !== 'advanced'" class="frmbtn" @click="router.back()">
+    <button v-if="store.mode !== 'advanced'" class="frmbtn" @click="back()">
       ← Back
     </button>
 
@@ -177,6 +177,11 @@ const id = computed(() => route.params.id);
 const pageCount = computed(() =>
   Math.ceil(itemCounter.value / pageSize)
 );
+
+function back() {
+  store.resetMapView()
+  router.back()
+}
 
 function showMap() {
   const coordinates = place.value?.geometry?.coordinates;
