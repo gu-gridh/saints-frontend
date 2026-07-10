@@ -183,3 +183,11 @@ export async function resolve(feature, path) {
 
   return resolve(record, path.slice(1))
 }
+
+export function getDioceses() {
+  return get("diocese", {
+    search: "",
+    mini: "",
+    type: "Medival",
+  })
+}

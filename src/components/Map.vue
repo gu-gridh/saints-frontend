@@ -5,6 +5,29 @@
     </div>
 
     <div ref="mapContainer" id="map-container"></div>
+    <div
+      ref="legendWidget"
+      class="layer-ctrl"
+      @mouseenter="showLegend"
+      @mouseleave="hideLegend"
+      v-show="mode === 'places'"
+    >
+
+      <button
+        v-if="legendSmall"
+        class="layer-switcher-button"
+        type="button"
+        aria-label="Show legend"
+      ></button>
+
+      <div v-else class="map-legend">
+        <h6>Legend</h6>
+        <div v-for="icon in legendIcons" :key="icon.label" class="legend-row">
+          <span v-html="legendShape(icon)" class="svg-icon"></span>
+          <span class="legend-name">{{ icon.label }}</span>
+        </div>
+      </div>
+    </div>
 
     <div
       ref="dateWidget"
@@ -29,6 +52,7 @@ import { mapCenter as defaultMapCenter } from '@/assets/config'
 import { buildMapParams, onFeatureClick } from '@/assets/query'
 import { markerIcon } from '@/assets/map'
 
+
 const store = useSaintsStore()
 const router = useRouter()
 
@@ -48,6 +72,70 @@ const zoom = computed(() => store.zoom)
 const isLoading = computed(() => store.isLoading)
 const updateSize = computed(() => store.updateSize)
 const refreshLayers = computed(() => store.refreshLayers)
+
+const legendWidget = ref(null)
+const legendSmall = ref(true)
+
+let legendHideTimer = null
+
+function showLegend() {
+  clearTimeout(legendHideTimer)
+  legendSmall.value = false
+}
+
+function hideLegend() {
+  clearTimeout(legendHideTimer)
+  legendHideTimer = setTimeout(() => {
+    legendSmall.value = true
+  }, 1000)
+}
+
+const legendColors = {
+  orange: 'rgba(255, 128, 0, .6)',
+  red: 'rgba(255, 0, 0, .5)',
+  purple: 'rgba(160, 39, 136, .8)',
+  blue: 'rgba(11, 56, 161, .7)',
+  brown: '#a0735f99',
+}
+
+const legendIcons = [
+  { label: 'City', color: 'blue', shape: 'square' },
+  { label: 'Town', color: 'blue', shape: 'circle' },
+  { label: 'Cathedral', color: 'purple', shape: 'triangle' },
+  { label: 'Episcopal entity', color: 'purple', shape: 'square' },
+  { label: 'Secular territorial entity', color: 'brown', shape: 'square' },
+  { label: 'Parish church', color: 'red', shape: 'triangle' },
+  { label: 'Religious house', color: 'red', shape: 'circle' },
+  { label: 'Other church', color: 'red', shape: 'triangle' },
+  { label: 'Castle', color: 'blue', shape: 'star' },
+  { label: 'Devotional site', color: 'orange', shape: 'circle' },
+  { label: 'Other rural site', color: 'brown', shape: 'triangleDown' },
+  { label: 'Other urban site', color: 'orange', shape: 'triangleDown' },
+]
+
+function legendColor(color) {
+  return legendColors[color] || color
+}
+
+function legendShape(icon) {
+  const color = legendColor(icon.color)
+  if (icon.shape === 'square') {
+    return `<svg viewBox="0 0 20 20"><rect width="14" height="14" x="3" y="3" fill="${color}" /></svg>`
+  }
+  if (icon.shape === 'circle') {
+    return `<svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="${color}" /></svg>`
+  }
+  if (icon.shape === 'triangle') {
+    return `<svg viewBox="0 0 20 20"><polygon points="10,2 2,18 18,18" fill="${color}" /></svg>`
+  }
+  if (icon.shape === 'triangleDown') {
+    return `<svg viewBox="0 0 20 20"><polygon points="2,2 18,2 10,18" fill="${color}" /></svg>`
+  }
+  if (icon.shape === 'star') {
+    return `<svg viewBox="0 0 20 20"><polygon points="10,2 12,8 18,8 13,12 15,18 10,14 5,18 7,12 2,8 8,8" fill="${color}" /></svg>`
+  }
+  return ''
+}
 
 function resizeMap() {
   requestAnimationFrame(() => {
@@ -128,13 +216,46 @@ async function fetchPlacesGeoJson() {
   }
 }
 
+function getSelectedMarkerIds() {
+  if (mode.value === 'saints') {
+    return store.query.saints.saints || []
+  }
+
+  if (mode.value === 'people') {
+    return store.query.people.people || []
+  }
+
+  if (mode.value === 'cults') {
+    return (
+      store.query.cults.filterType?.length
+        ? store.query.cults.filterType
+        : store.query.cults.types?.length
+          ? store.query.cults.types
+          : store.query.cults.areas?.length
+            ? store.query.cults.areas
+            : []
+    )
+  }
+
+  return []
+}
+
 async function createQueryLayer() {
   const geojson = await fetchPlacesGeoJson()
 
   return L.geoJSON(geojson, {
     pointToLayer(feature, latlng) {
+
+    const selectedIds =
+      mode.value === 'saints'
+        ? store.query.saints.saints
+        : mode.value === 'people'
+          ? store.query.people.people
+          : mode.value === 'cults'
+            ? store.query.cults.types
+            : []
     return L.marker(latlng, {
-      icon: markerIcon(feature, mode.value),
+      icon: markerIcon(feature, mode.value, getSelectedMarkerIds()),
     })
   },
 
@@ -167,7 +288,6 @@ let rebuildId = 0
 
 async function rebuildQueryLayer() {
   if (!map.value) return
-
   const currentRebuildId = ++rebuildId
 
   if (queryLayer.value) {
@@ -175,9 +295,7 @@ async function rebuildQueryLayer() {
     map.value.removeLayer(queryLayer.value)
     queryLayer.value = null
   }
-
   const newLayer = await createQueryLayer()
-
   if (currentRebuildId !== rebuildId) {
     newLayer.clearLayers()
     return
@@ -239,7 +357,9 @@ async function initMap() {
   if (dateWidget.value) {
     addVueWidgetToMap(dateWidget.value, 'bottomleft')
   }
-
+  if (legendWidget.value) {
+    addVueWidgetToMap(legendWidget.value, 'bottomright')
+  }
   await rebuildQueryLayer()
 }
 
@@ -258,6 +378,13 @@ watch(zoom, newZoom => {
     animate: true,
   })
 })
+
+function centerMap(lon, lat) {
+  if (!map.value) return
+  map.value.setView([lat, lon], map.value.getZoom(), {
+    animate: true,
+  })
+}
 
 watch(mapCenter, value => {
   if (!value) return
@@ -342,7 +469,7 @@ main {
 }
 
 .date-widget {
-  padding: 0.2rem 1rem 0.2rem 0;
+  padding: 0.5rem 1rem 0.5rem 1rem;
   background-color: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(4px);
   border-radius: 0.5rem;
@@ -391,4 +518,58 @@ main {
   background: transparent;
   border: none;
 }
+
+.layer-ctrl {
+  background: transparent;
+}
+
+.layer-switcher-button {
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 50%;
+  background-color: rgba(236, 211, 211, 0.7);
+  background-image: url('@/assets/icons/info_black.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+}
+
+.map-legend {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 13px;
+  max-height: 45vh;
+  overflow: auto;
+}
+
+.map-legend h6 {
+  margin: 0 0 0.5rem;
+  font-size: 14px;
+}
+
+.legend-row {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-bottom: 0.2rem;
+}
+
+.svg-icon {
+  width: 1.5em;
+  height: 1.5em;
+  display: inline-flex;
+}
+
+.svg-icon svg {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.legend-name {
+  white-space: nowrap;
+}
+
+
 </style>
