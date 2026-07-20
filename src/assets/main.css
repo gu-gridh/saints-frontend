@@ -9,6 +9,10 @@
   background-color: hsla(0, 0%, 96.1%, .9);
 }
 
+body {
+  font-family: 'Barlow Condensed', sans-serif;
+}
+
 nav a {
   text-decoration: none;
   color: black;
@@ -110,11 +114,14 @@ input {
   font-size: 17px !important;
 }
 
-
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(42, 90%, 55%, 0.2);
-  }
+.frminp
+ {
+    border: 0;
+    background: #eee;
+    border-radius: 0.5em;
+    padding: .2em 0.5em;
+    color: black;
+    width: 100%;
 }
 
 @media (min-width: 1024px) {

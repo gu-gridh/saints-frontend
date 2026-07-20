@@ -77,10 +77,10 @@ img {
   overflow: hidden;
 }
 .item.router-link-active {
-  color: #DC9614;
+  color: var(--contrast-color-menu);
 }
 .item.router-link-active .img-container {
-  background-color: #DC9614;
+  background-color: var(--contrast-color-menu);
 }
 .item .label {
   font-size: 90%;

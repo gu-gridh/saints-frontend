@@ -40,8 +40,15 @@ const showFooter = computed(() => !route.meta.hideFooter)
 }
 
 .main-menu-link.router-link-active {
-  background-color: #dc9614;
+  background-color: var(--contrast-color-menu);
   color: #fff;
   font-weight: 200;
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: var(--contrast-color-menu-light);
+    color: #fff;
+  }
 }
 </style>
