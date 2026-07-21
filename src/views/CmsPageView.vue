@@ -24,3 +24,11 @@ const { page, loading, error } = useCmsPage(computed(() => props.slug))
   <p v-else-if="loading">Loading...</p>
   <p v-else-if="error">Could not load text.</p>
 </template>
+
+<style scoped>
+
+main {
+  padding-bottom: 4rem;
+}
+
+</style>

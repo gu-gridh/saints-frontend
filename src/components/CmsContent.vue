@@ -57,11 +57,16 @@ const props = defineProps({
 }
 
 .columns {
-  margin-top:20px;
-  margin-bottom:40px;
-  columns:2;
-  column-gap: 40px;
-  text-align:justify;
+  margin-top: 20px;
+  margin-bottom: 40px;
+  columns: 2;
+  column-gap: 4rem;
+  text-align: justify;
+}
+
+.columns :deep(blockquote) {
+  padding-left: 2rem;
+  margin-bottom: 1rem;
 }
 
 .content-half {
