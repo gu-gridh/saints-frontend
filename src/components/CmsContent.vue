@@ -1,16 +1,3 @@
-<script setup>
-const props = defineProps({
-  page: {
-    type: Object,
-    required: true,
-  },
-  homeHeading: {
-    type: Boolean,
-    default: false,
-  },
-})
-</script>
-
 <template>
   <article class="info-article"
     :class="{
@@ -35,42 +22,63 @@ const props = defineProps({
         :class="{ columns: block.value.two_columns }"
         v-html="block.value.text"
       />
+
+      <CultTypeTable
+        v-else-if="block.type === 'culttype_table'"
+      />
     </template>
   </article>
 </template>
 
+<script setup>
+import CultTypeTable from '@/components/CultTypeTable.vue'
+
+const props = defineProps({
+  page: {
+    type: Object,
+    required: true,
+  },
+  homeHeading: {
+    type: Boolean,
+    default: false,
+  },
+})
+</script>
+
 <style scoped>
 
-#hero {
-  pointer-events: none;
-  position: absolute;
-  overflow: hidden;
-  width: 600px;
-  height: 1100px;
-  background-image: url(../assets/img/hero.png);
-  background-size: cover;
-  right: -200px;
-  top: -500px;
-  z-index: 0;
-  transition: all 0.2s ease-in-out;
-  transform: rotate(-55deg);
-}
+@media (min-width: 1024px) {
+  #hero {
+    pointer-events: none;
+    position: absolute;
+    overflow: hidden;
+    width: 600px;
+    height: 1100px;
+    background-image: url(../assets/img/hero.png);
+    background-size: cover;
+    right: -200px;
+    top: -500px;
+    z-index: 0;
+    transition: all 0.2s ease-in-out;
+    transform: rotate(-55deg);
+  }
 
-.columns {
-  margin-top: 20px;
-  margin-bottom: 40px;
-  columns: 2;
-  column-gap: 4rem;
-  text-align: justify;
-}
+  .columns {
+    margin-top: 20px;
+    margin-bottom: 40px;
+    columns: 2;
+    column-gap: 4rem;
+    text-align: justify;
+  }
 
-.columns :deep(blockquote) {
-  padding-left: 2rem;
-  margin-bottom: 1rem;
-}
+  .columns :deep(blockquote) {
+    padding-left: 2rem;
+    margin-bottom: 1rem;
+  }
 
-.content-half {
-  max-width: 50%;
+  .content-half {
+    max-width: 50%;
+  }
 }
 
 h1.home {
