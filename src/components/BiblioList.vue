@@ -1,31 +1,5 @@
 <template>
    <div class="container">
-    <Popup
-      v-if="isPopupOpen && selectedQuote"
-      class="popup"
-      @close="closePopup"
-    >
-      <template #header>
-        <span>
-          {{ selectedQuote.source?.name }}
-          <span v-if="selectedQuote.page">
-            p. {{ selectedQuote.page }}
-          </span>
-        </span>
-      </template>
-
-      <template #body>
-        <div
-          v-if="selectedQuote.quote_transcription"
-          v-html="selectedQuote.quote_transcription"
-        />
-
-        <template v-if="selectedQuote.translation">
-          <p><strong>Translation:</strong></p>
-          <div v-html="selectedQuote.translation" />
-        </template>
-      </template>
-    </Popup>
 
     <div class="alphabet-container">
       <div
@@ -95,114 +69,29 @@
       <p v-if="searchLoading">Searching...</p>
 
       <template v-else>
-        <div class="grid">
-          <button
-            v-for="result in searchResults"
-            :key="result.id"
-            type="button"
-            class="click"
-            @click="openPopup(result.id)"
-          >
-            {{ result.source?.name }}
+        <BiblioSource
+          v-for="result in groupedSearchResults"
+          :key="result.id"
+          :source="result.source"
+        />
 
-            <span v-if="result.page">
-              p. {{ result.page }}
-            </span>
-          </button>
-        </div>
+        <p v-if="groupedSearchResults.length === 0">No matching quotes found.</p>
 
-        <p v-if="searchResults.length === 0">No matching quotes found.</p>
-
-        <div v-if="totalPages > 1" class="my-2 nav">
-          <button
-            type="button"
-            class="frmbtn"
-            :disabled="page <= 1 || searchLoading"
-            @click="previousPage"
-          >
-            ←
-          </button>
-
-          <span>
-            Page {{ page }} of {{ totalPages }}
-            ({{ resultCount }} items)
-          </span>
-
-          <button
-            type="button"
-            class="frmbtn"
-            :disabled="page >= totalPages || searchLoading"
-            @click="nextPage"
-          >
-            →
-          </button>
-        </div>
       </template>
     </section>
 
     <!-- Bibliography results -->
     <section v-else>
-      <article
+      <BiblioSource
         v-for="item in bibliographyItems"
-        :id="String(item.id)"
         :key="item.id"
-        class="results rowItem"
-      >
-        <button
-          type="button"
-          class="toggleBtn"
-          :aria-expanded="isRowOpen(item.id)"
-          :aria-controls="`source-details-${item.id}`"
-          @click="toggleSource(item.id)"
-        >
-          {{ isRowOpen(item.id) ? "−" : "+" }}
-        </button>
+        :source="item"
+        :initially-open="hashSourceId === item.id"
+      />
 
-        <router-link :to="{ hash: `#${item.id}` }" class="hash-link">
-          <span v-if="item.author">{{ item.author }}.</span>
-          <span v-else-if="item.name">{{ item.name }}.</span>
-          <em v-if="item.title">{{ item.title }}.</em>
-          <span v-if="item.archive_name">{{ item.archive_name }}.</span>
-          <span v-if="item.archive">{{ item.archive }}.</span>
-          <span v-if="item.insource">{{ item.insource }},</span>
-          <span v-if="item.publisher">{{ item.publisher }},</span>
-          <span v-if="item.pub_year">{{ item.pub_year }}.</span>
-          <span v-if="item.pub_place">{{ item.pub_place }}.</span>
-        </router-link>
-
-        <a v-if="item.uri" :href="item.uri"
-          target="_blank" rel="noopener noreferrer" class="digi-link">
-          Digitized version
-        </a>
-
-        <div
-          v-if="isRowOpen(item.id)"
-          :id="`source-details-${item.id}`"
-          class="sourceInfo"
-        >
-          <p v-if="isSourceLoading(item.id)">
-            Loading source information...
-          </p>
-
-          <p v-else-if="sourceErrors[item.id]">
-            {{ sourceErrors[item.id] }}
-          </p>
-
-          <template v-else-if="sourceDetails[item.id]">
-            <BiblioSourceDetails
-              :source="sourceDetails[item.id]"
-            />
-          </template>
-        </div>
-      </article>
-
-      <p
-        v-if="
-          !bibliographyLoading &&
-          !bibliographyError &&
-          bibliographyItems.length === 0
-        "
-      >
+      <p v-if="!bibliographyLoading &&
+               !bibliographyError &&
+                bibliographyItems.length === 0">
         No bibliography entries found.
       </p>
     </section>
@@ -215,18 +104,15 @@ import {
   computed,
   onBeforeUnmount,
   onMounted,
-  reactive,
   ref,
   watch,
 } from "vue"
 import { useRoute } from "vue-router"
 
 import { getFilterTypes, quoteSearch } from "@/assets/db"
-import Popup from "./Popup.vue"
-import BiblioSourceDetails from "./BiblioSourceDetails.vue"
+import BiblioSource from "./BiblioSource.vue"
 
 const SOURCE_API_URL = "/api/source/"
-const QUOTE_API_URL = "/api/quote/"
 
 const alphabet = [
   "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
@@ -252,11 +138,7 @@ const ordering = ref("title")
 
 const bibliographyLoading = ref(false)
 const bibliographyError = ref("")
-
-const openSourceId = ref(null)
-const sourceDetails = reactive({})
-const sourceLoading = reactive({})
-const sourceErrors = reactive({})
+const hashSourceId = ref(null)
 
 const searchInput = ref("")
 const searchQuery = ref("")
@@ -268,21 +150,43 @@ const page = ref(1)
 const pageSize = 100
 const resultCount = ref(0)
 
-const isPopupOpen = ref(false)
-const selectedQuote = ref(null)
-
 let searchTimer
 let bibliographyController
-let sourceController
-let quoteController
 
 const hasSearchQuery = computed(() => {
   return searchQuery.value.trim().length > 0
 })
 
-const totalPages = computed(() => {
-  return Math.max(1, Math.ceil(resultCount.value / pageSize))
+const groupedSearchResults = computed(() => {
+  const grouped = new Map()
+
+  for (const result of searchResults.value) {
+    const source = result.source
+
+    if (!source?.id) {
+      continue
+    }
+
+    if (!grouped.has(source.id)) {
+      grouped.set(source.id, {
+        source,
+        pages: [],
+      })
+    }
+
+    if (result.page) {
+      const pageValue = String(result.page)
+      const entry = grouped.get(source.id)
+
+      if (!entry.pages.includes(pageValue)) {
+        entry.pages.push(pageValue)
+      }
+    }
+  }
+
+  return Array.from(grouped.values())
 })
+
 
 function buildBibliographyQuery() {
   const parameters = new URLSearchParams()
@@ -309,8 +213,6 @@ async function fetchBibliography() {
   bibliographyLoading.value = true
   bibliographyError.value = ""
 
-  closeOpenSource()
-
   try {
     const query = buildBibliographyQuery()
     const response = await getFilterTypes("source", query)
@@ -331,10 +233,10 @@ async function fetchBibliography() {
 
 function selectLetter(letter) {
   if (selectedLetter.value === letter) {
-    return
+    selectedLetter.value = ""
+  } else {
+    selectedLetter.value = letter
   }
-
-  selectedLetter.value = letter
 }
 
 function selectType(type) {
@@ -343,64 +245,6 @@ function selectType(type) {
   }
 
   selectedType.value = type
-}
-
-function isRowOpen(id) {
-  return openSourceId.value === id
-}
-
-function isSourceLoading(id) {
-  return sourceLoading[id] === true
-}
-
-function closeOpenSource() {
-  openSourceId.value = null
-}
-
-async function toggleSource(id) {
-  if (openSourceId.value === id) {
-    openSourceId.value = null
-    return
-  }
-
-  openSourceId.value = id
-
-  /*
-   * Request same source only once after it has been loaded.
-   */
-  if (sourceDetails[id]) {
-    return
-  }
-
-  sourceController?.abort()
-  sourceController = new AbortController()
-
-  sourceLoading[id] = true
-  sourceErrors[id] = ""
-
-  try {
-    const response = await fetch(`${SOURCE_API_URL}${id}/`, {
-      signal: sourceController.signal,
-      headers: {
-        Accept: "application/json",
-      },
-    })
-
-    if (!response.ok) {
-      throw new Error(`Source request failed with ${response.status}.`)
-    }
-
-    sourceDetails[id] = await response.json()
-  } catch (error) {
-    if (error?.name === "AbortError") {
-      return
-    }
-
-    sourceErrors[id] = "Could not load the source information."
-    console.error(error)
-  } finally {
-    sourceLoading[id] = false
-  }
 }
 
 async function searchQuotes() {
@@ -436,54 +280,6 @@ async function searchQuotes() {
   }
 }
 
-function previousPage() {
-  if (page.value <= 1) {
-    return
-  }
-
-  page.value -= 1
-}
-
-function nextPage() {
-  if (page.value >= totalPages.value) {
-    return
-  }
-
-  page.value += 1
-}
-
-async function openPopup(quoteId) {
-  quoteController?.abort()
-  quoteController = new AbortController()
-
-  try {
-    const response = await fetch(`${QUOTE_API_URL}${quoteId}/`, {
-      signal: quoteController.signal,
-      headers: {
-        Accept: "application/json",
-      },
-    })
-
-    if (!response.ok) {
-      throw new Error(`Quote request failed with ${response.status}.`)
-    }
-
-    selectedQuote.value = await response.json()
-    isPopupOpen.value = true
-  } catch (error) {
-    if (error?.name === "AbortError") {
-      return
-    }
-
-    console.error(error)
-  }
-}
-
-function closePopup() {
-  isPopupOpen.value = false
-  selectedQuote.value = null
-}
-
 async function loadSourceFromHash(hash) {
   const id = Number(hash.replace("#", ""))
 
@@ -508,8 +304,7 @@ async function loadSourceFromHash(hash) {
     const source = await response.json()
 
     bibliographyItems.value = [source]
-    sourceDetails[id] = source
-    openSourceId.value = id
+    hashSourceId.value = id
   } catch (error) {
     bibliographyItems.value = []
     bibliographyError.value = "Could not load the requested source."
@@ -566,7 +361,6 @@ onMounted(async () => {
     await loadSourceFromHash(route.hash)
     return
   }
-
   await fetchBibliography()
 })
 
@@ -574,8 +368,6 @@ onBeforeUnmount(() => {
   window.clearTimeout(searchTimer)
 
   bibliographyController?.abort()
-  sourceController?.abort()
-  quoteController?.abort()
 })
 
 </script>
@@ -587,18 +379,27 @@ a {
   text-decoration: none;
 }
 
-div .container {
-  padding: 1rem 5rem 0 4rem;
-  max-width: 75%;
-}
+@media (min-width: 900px) {
+  div .container {
+    padding: 1rem 5rem 0 4rem;
+    max-width: 75%;
+  }
 
-div .alphabet-container {
-  display: flex;
-  justify-content: space-between;
+  div .alphabet-container {
+    display: flex;
+    gap: 2rem;
+    border-radius: 0.3em;
+  }
 }
 
 div .alphabet {
+  background-color: #eee;
+  padding: 0.1em;
+  margin-bottom: 0.5em;
+  border-radius: 0.3em;
+  align-self: center;
   & button {
+    background-color: #eee;
     border: none;
     font-size: larger;
     color: var(--link-color);
@@ -606,9 +407,12 @@ div .alphabet {
   & button:hover {
       color: var(--vt-c-white);
       background-color: #666;
+      border-radius: 0.3em;
   };
-  & button.aria-pressed {
+  & button[aria-pressed="true"] {
+    color: var(--vt-c-white);
     background-color: #666;
+    border-radius: 0.3em;
   }
 }
 
@@ -618,6 +422,7 @@ button {
 
 div .quoteSearch {
   width: 50%;
+  margin-bottom: 0.5em;
 }
 
 fieldset {
@@ -686,41 +491,6 @@ nav.tag-container {
   .tag {
     margin-right: 0.4rem;
     margin-bottom: 0.4rem;
-  }
-}
-
-.hash-link {
-  color: var(--color-text)
-}
-
-article.rowItem {
-  margin-bottom: 8px;
-}
-
-button.toggleBtn {
-  cursor: pointer;
-  font-size: 15px;
-  margin-right: 10px;
-  width: 20px;
-  height: 20px;
-  line-height: 20px;
-  text-align: center;
-  border-radius: 50%;
-  border: 2px solid #ccc;
-  -webkit-box-shadow: 0 4px 6px rgba(0,0,0,.2);
-  box-shadow: 0 4px 6px rgba(0,0,0,.2);
-  display: inline-flex;
-  -webkit-box-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  justify-content: center;
-  -webkit-transition: all .2s ease;
-  transition: all .2s ease;
-  &:hover {
-    color: var(--contrast-color);
-    border-color: var(--contrast-color);
-    -webkit-box-shadow: 0 6px 8px rgba(0,0,0,.3);
-    box-shadow: 0 6px 8px rgba(0,0,0,.3);
   }
 }
 

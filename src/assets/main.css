@@ -66,13 +66,6 @@ p {
   margin-bottom: 1rem;
 }
 
-.info-article {
-  padding: 1rem 5rem 0 4rem;
-  height: auto;
-  display: block;
-  position: relative;
-}
-
 article {
   font-size: 20px;
   font-weight: 300;
@@ -85,7 +78,7 @@ body h4, th {
     font-weight: bold;
     text-transform: uppercase;
     margin: 1rem 0 0.5rem;
-    color: #666;
+    color: #555;
     line-height: 1.2;
 }
 
@@ -140,7 +133,12 @@ input {
     padding: 0 2rem;
   }
 
-
+  .info-article {
+    padding: 1rem 5rem 0 4rem;
+    height: auto;
+    display: block;
+    position: relative;
+  }
 }
 
 @media (max-width: 1023px) {
