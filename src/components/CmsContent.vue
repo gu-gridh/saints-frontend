@@ -19,6 +19,7 @@
 
       <div
         v-else-if="block.type === 'text'"
+        class="rich-text"
         :class="{ columns: block.value.two_columns }"
         v-html="block.value.text"
       />
@@ -65,7 +66,6 @@ const props = defineProps({
 
   .columns {
     margin-top: 20px;
-    margin-bottom: 40px;
     columns: 2;
     column-gap: 4rem;
     text-align: justify;
@@ -97,4 +97,45 @@ h2.home {
   margin-bottom: 0px;
 }
 
+h2 {
+  margin-top: 2rem;
+}
+
+:deep(a) {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+:deep(ul) {
+  margin-bottom: 1rem;
+}
+
+.rich-text :deep(.richtext-arrow-link) {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: black;
+  padding: 0.5em;
+  border-radius: 0.3em;
+  font-size: larger;
+}
+
+.rich-text :deep(.richtext-arrow-link::before) {
+  content: '';
+  background-image: url(../assets/icons/linkbutton.svg);
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.rich-text :deep(.richtext-arrow-link:hover) {
+  background-color: var(--vt-c-white);
+}
+
+:deep(p:has(.richtext-arrow-link)) {
+  margin-bottom: 0;
+}
 </style>

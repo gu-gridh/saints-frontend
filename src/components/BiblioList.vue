@@ -379,6 +379,10 @@ a {
   text-decoration: none;
 }
 
+article {
+  margin-bottom: 0.5rem;
+}
+
 @media (min-width: 900px) {
   div .container {
     padding: 1rem 5rem 0 4rem;
@@ -472,12 +476,12 @@ nav.tag-container {
 }
 
 .tag.active {
-  background-color: #ff8000;
+  background-color: var(--contrast-color);
   color: white;
 }
 
 .tag:hover {
-  background-color: #ff8000;
+  background-color: var(--contrast-color);
   color: white;
 }
 
