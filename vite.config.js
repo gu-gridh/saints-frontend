@@ -20,15 +20,15 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:8000',
+        target: 'https://saints.dh.gu.se',
         changeOrigin: true,
       },
       '/cms': {
-        target: 'http://localhost:8000',
+        target: 'https://saints.dh.gu.se',
         changeOrigin: true,
       },
       '/media': {
-        target: 'http://localhost:8000',
+        target: 'https://saints.dh.gu.se',
         changeOrigin: true,
       },
   },
