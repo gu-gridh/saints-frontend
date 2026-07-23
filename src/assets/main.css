@@ -41,21 +41,19 @@ h1 {
 
 h2 {
   font-family: 'Antic Didone', serif;
-  font-size: 65px;
+  font-size: 35px;
   line-height: .85;
   margin-bottom: 30px;
   letter-spacing: 0;
 }
 
 h3 {
-  font-family: "Antic Didone";
+  font-family: 'Antic Didone', serif;
   font-style: normal;
-  font-weight: 600;
-  font-size: 24px;
-  line-height: 0.9;
-  padding: 0px;
-  margin-bottom: 10px;
-  width: auto;
+  font-weight: 400;
+  font-size: 25px;
+  line-height: 1.1;
+  padding: 40px 0 40px 0;
 }
 
 b {

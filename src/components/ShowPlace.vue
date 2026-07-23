@@ -4,10 +4,12 @@
       ← Back
     </button>
 
-    <h3>
+    <h1>
       {{ place.name }}
-      <small v-if="place.place_type?.name">{{ place.place_type.name }}</small>
-    </h3>
+    </h1>
+    <h2 v-if="place.place_type?.name">
+      {{ place.place_type.name }}      
+    </h2>
 
     <table class="data-table">
       <tbody>
@@ -251,25 +253,37 @@ watch(
 </script>
 
 <style>
-h3 {
-  font-family: Antic Didone;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 50px;
-    line-height: 1.1;
-    padding: 40px 0 40px 0;
+div.tabcontent {
+  padding: 1rem 1rem 1rem 2rem;
 }
+
+h1 {
+  font-family: Antic Didone;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 50px;
+  line-height: 1.1;
+  padding: 2rem 0 1rem 0;
+}
+
+h2 {
+  color: var(--contrast-grey);
+  margin-bottom: 2rem;
+}
+
 table {
   border: 0;
   margin-block: 1rem;
+  width: 100%;
 }
 
 table tr:nth-of-type(even) {
   background-color: unset;
 }
 
-table tr {
-  border-block: thin solid #eee;
+table tr:not(:last-child) td,
+table tr:not(:last-child) th {
+  border-bottom: thin solid #eee;
 }
 
 th {

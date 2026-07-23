@@ -4,9 +4,11 @@
       ← Back
     </button>
 
-    <h2>
+    <h1>
       {{ person.name }}
-      <small>{{ type === 'saint' ? 'Saint' : 'Person' }}</small>
+    </h1>
+    <h2>
+      {{ type === 'saint' ? 'Saint' : 'Person' }}
     </h2>
 
     <table class="data-table">
