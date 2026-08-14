@@ -74,9 +74,10 @@ function closeSearch() {
 }
 .button-label{
   font-family: sans-serif;
-  font: 1em sans-serif;ont-weight:200;
+  font: 1em sans-serif;
+  font-weight:200;
   font-size: 14px;
-   margin-right:10px;
+  margin: 0px 10px;
 }
 .advanced-icon{
     border-radius:50%;

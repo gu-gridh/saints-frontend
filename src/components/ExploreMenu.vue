@@ -51,9 +51,10 @@ function resetMap() {
 }
 .item {
   width: 21%;
-  max-width: 8.2rem;
+  max-width: 10rem;
   padding: 0.4rem;
   color: inherit;
+  text-decoration: none;
 }
 
 .item .label {
