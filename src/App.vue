@@ -25,7 +25,7 @@ const showFooter = computed(() => !route.meta.hideFooter)
 
 <style scoped>
 .main-menu {
-  padding: 0 0 30px;
+  padding: 0 0 10px 30px;
   font-size: 25px;
   font-weight: 200;
   display: -webkit-box;

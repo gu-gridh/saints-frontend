@@ -74,6 +74,12 @@ const props = defineProps({
   .columns :deep(blockquote) {
     padding-left: 2rem;
     margin-bottom: 1rem;
+    break-before: avoid;
+    break-inside: avoid-column;
+  }
+
+  .columns :deep(p:has(+ blockquote)) {
+    break-after: avoid;
   }
 
   .content-half {
@@ -99,6 +105,17 @@ h2.home {
 
 h2 {
   margin-top: 2rem;
+  color: inherit;
+}
+
+:deep(h3) {
+  padding: 0;
+}
+
+:deep(hr) {
+  padding: 2rem 0 1rem 0;
+  border: none;
+  border-top: 0.5px solid var(--contrast-grey);
 }
 
 :deep(a) {
@@ -118,6 +135,7 @@ h2 {
   padding: 0.5em;
   border-radius: 0.3em;
   font-size: larger;
+  font-weight: 400;
 }
 
 .rich-text :deep(.richtext-arrow-link::before) {
@@ -131,11 +149,14 @@ h2 {
   background-repeat: no-repeat;
 }
 
-.rich-text :deep(.richtext-arrow-link:hover) {
-  background-color: var(--vt-c-white);
-}
-
 :deep(p:has(.richtext-arrow-link)) {
   margin-bottom: 0;
+}
+
+:deep(p:has(.richtext-arrow-link):hover) {
+  margin-bottom: 0;
+  background-color: #ffffff;
+  width: 50%;
+  border-radius: 0.3em;
 }
 </style>

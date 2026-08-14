@@ -28,7 +28,7 @@ const { page, loading, error } = useCmsPage(computed(() => props.slug))
 <style scoped>
 
 main {
-  padding-bottom: 4rem;
+  padding-bottom: 90px;
 }
 
 </style>
