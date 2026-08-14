@@ -160,8 +160,7 @@ const hasSearchQuery = computed(() => {
 const groupedSearchResults = computed(() => {
   const grouped = new Map()
 
-  for (const result of searchResults.value) {
-    const source = result.source
+  for (const source of searchResults.value) {
 
     if (!source?.id) {
       continue
@@ -174,8 +173,8 @@ const groupedSearchResults = computed(() => {
       })
     }
 
-    if (result.page) {
-      const pageValue = String(result.page)
+    if (source.page) {
+      const pageValue = String(source.page)
       const entry = grouped.get(source.id)
 
       if (!entry.pages.includes(pageValue)) {
@@ -409,12 +408,12 @@ div .alphabet {
     color: var(--link-color);
   };
   & button:hover {
-      color: var(--vt-c-white);
+      color: #fff;
       background-color: #666;
       border-radius: 0.3em;
   };
   & button[aria-pressed="true"] {
-    color: var(--vt-c-white);
+    color: #fff;
     background-color: #666;
     border-radius: 0.3em;
   }

@@ -20,9 +20,11 @@
       <span v-if="source.archive_name">{{ source.archive_name }}.</span>
       <span v-if="source.archive">{{ source.archive }}. </span>
       <span v-if="source.insource">{{ source.insource }}, </span>
+      <span v-if="source.pub_place">{{ source.pub_place }}: </span>
       <span v-if="source.publisher">{{ source.publisher }}, </span>
-      <span v-if="source.pub_year">{{ source.pub_year }}. </span>
-      <span v-if="source.pub_place">{{ source.pub_place }}. </span>
+      <span v-if="source.pub_year">{{ source.pub_year }}</span>
+      <span v-if="source.pages">, p. {{ source.pages }}.</span>
+      <span v-else>.</span>
     </router-link>
 
     <a v-if="source.uri" :href="source.uri"
