@@ -195,8 +195,12 @@ export const useSaintsStore = defineStore('saints', () => {
       ...query.value.advanced,
       ...value,
     }
-    setMode('advanced')
-    bumpRefreshLayers()
+
+    if (mode.value !== 'advanced') {
+      setMode('advanced')
+    } else {
+      bumpRefreshLayers()
+    }
   }
 
   function clearAdvancedSearch() {

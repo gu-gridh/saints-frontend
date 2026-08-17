@@ -55,7 +55,7 @@ const definitions = {
       const params = {}
 
       if (state.saints?.length) {
-        params.agent = state.saints.join(',')
+        params.ids = state.saints.join(',')
       } else if (state.types?.length) {
         params.ids = state.types.join(',')
       }
@@ -126,7 +126,7 @@ const definitions = {
       const params = {}
 
       if (state.people?.length) {
-        params.agent = state.people.join(',')
+        params.ids = state.people.join(',')
       } else if (state.types?.length) {
         params.ids = state.types.join(',')
       }
@@ -144,7 +144,6 @@ const definitions = {
       cultType: [],
       placeType: [],
       personType: [],
-      placeTypes: [],
       personName: [],
       dioceseState: null,
     },
@@ -338,4 +337,14 @@ export function composeQuery(parts) {
     query = query[0];
   }
   return query;
+}
+
+export function buildAdvancedParams(queryState) {
+  const state = queryState?.advanced
+
+  if (!state) {
+    return {}
+  }
+
+  return definitions.advanced.buildParams(state)
 }

@@ -150,66 +150,109 @@ function pieSlicePath(cx, cy, r, startAngle, endAngle) {
 }
 
 export function pieIcon(feature, selectedIds = []) {
-  const props = feature.properties || feature
-  const ids = props.ids || {}
+  const props = feature?.properties ?? feature ?? {}
+  const ids = props.ids ?? {}
 
-  const values = selectedIds.map(id => Number(ids[String(id)] || 0))
+  const values = selectedIds.map((id) => {
+    return Number(ids[String(id)] ?? 0)
+  })
+
   const total = values.reduce((sum, value) => sum + value, 0)
-  const colors = markerColors(0.7)
 
-  if (!total) {
+  if (total <= 0) {
     return countIcon(feature)
   }
 
-  const nonZeroValues = values
-    .map((value, index) => ({ value, index }))
-    .filter(item => item.value > 0)
-
+  const colors = markerColors(0.7)
   const radius = markerSizeFromCount(total)
-  const size = radius * 2 + 4
+
+  const padding = 2
+  const size = radius * 2 + padding * 2
   const cx = size / 2
   const cy = size / 2
 
-  if (nonZeroValues.length === 1) {
-    const color = colors[nonZeroValues[0].index % colors.length]
+  const activeValues = values
+    .map((value, index) => ({
+      value,
+      index,
+    }))
+    .filter(({ value }) => value > 0)
 
-    return svgIcon(`
-      <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
+  // Only one selected category is represented at this location.
+  // Draw a normal coloured circle instead of a one-slice pie.
+  if (activeValues.length === 1) {
+    const { index } = activeValues[0]
+    const color = colors[index % colors.length]
+
+    return svgIcon(
+      `
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="${size}"
+          height="${size}"
+          viewBox="0 0 ${size} ${size}"
+        >
+          <circle
+            cx="${cx}"
+            cy="${cy}"
+            r="${radius}"
+            fill="${color}"
+            stroke="white"
+            stroke-width="1"
+          />
+        </svg>
+      `,
+      size
+    )
+  }
+
+  let currentAngle = -90
+
+  const slices = activeValues
+    .map(({ value, index }) => {
+      const angle = (value / total) * 360
+      const startAngle = currentAngle
+      const endAngle = currentAngle + angle
+
+      currentAngle = endAngle
+
+      const path = pieSlicePath(
+        cx,
+        cy,
+        radius,
+        startAngle,
+        endAngle
+      )
+
+      return `
+        <path
+          d="${path}"
+          fill="${colors[index % colors.length]}"
+        />
+      `
+    })
+    .join('')
+
+  return svgIcon(
+    `
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="${size}"
+        height="${size}"
+        viewBox="0 0 ${size} ${size}"
+      >
+        ${slices}
+
         <circle
           cx="${cx}"
           cy="${cy}"
           r="${radius}"
-          fill="${color}"
+          fill="none"
           stroke="white"
           stroke-width="1"
         />
       </svg>
-    `, size)
-  }
-
-  let currentAngle = 0
-
-  const slices = values.map((value, index) => {
-    if (!value) return ''
-
-    const angle = (value / total) * 360
-    const path = pieSlicePath(cx, cy, radius, currentAngle, currentAngle + angle)
-    currentAngle += angle
-
-    return `<path d="${path}" fill="${colors[index % colors.length]}" />`
-  }).join('')
-
-  return svgIcon(`
-    <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
-      ${slices}
-      <circle
-        cx="${cx}"
-        cy="${cy}"
-        r="${radius}"
-        fill="none"
-        stroke="white"
-        stroke-width="1"
-      />
-    </svg>
-  `, size)
+    `,
+    size
+  )
 }

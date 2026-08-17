@@ -47,9 +47,12 @@ import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
 import DateSlider from '@/components/DateSlider.vue'
-import { map as fetchMap } from '@/assets/db'
+import {
+  map as fetchMap,
+  advancedMap as fetchAdvancedMap,
+} from '@/assets/db'
 import { mapCenter as defaultMapCenter } from '@/assets/config'
-import { buildMapParams, onFeatureClick } from '@/assets/query'
+import { buildMapParams, onFeatureClick, buildAdvancedParams } from '@/assets/query'
 import { markerIcon } from '@/assets/map'
 
 
@@ -192,12 +195,27 @@ function getMapArgs() {
   }
 }
 
-async function fetchPlacesGeoJson() {
+async function fetchQueryGeoJson() {
   setLoading(true)
 
   try {
-    const params = buildMapParams(query.value, getMapArgs())
-    const response = await fetchMap(params.toString())
+    let response
+
+    const args = getMapArgs()
+
+    if (mode.value === 'advanced') {
+      const advancedParams = buildAdvancedParams(query.value)
+
+      response = await fetchAdvancedMap(
+        args.bbox,
+        args.zoom,
+        args.range,
+        advancedParams
+      )
+    } else {
+      const params = buildMapParams(query.value, args)
+      response = await fetchMap(params.toString())
+    }
 
     if (response?.type === 'FeatureCollection') {
       return response
@@ -211,6 +229,13 @@ async function fetchPlacesGeoJson() {
       type: 'FeatureCollection',
       features: [],
     }
+  } catch (error) {
+    console.error('Failed to load map data:', error)
+
+    return {
+      type: 'FeatureCollection',
+      features: [],
+    }
   } finally {
     setLoading(false)
   }
@@ -218,46 +243,44 @@ async function fetchPlacesGeoJson() {
 
 function getSelectedMarkerIds() {
   if (mode.value === 'saints') {
-    return store.query.saints.saints || []
+    return store.query.saints.saints?.length
+      ? store.query.saints.saints
+      : store.query.saints.types ?? []
   }
 
   if (mode.value === 'people') {
-    return store.query.people.people || []
+    return store.query.people.people?.length
+      ? store.query.people.people
+      : store.query.people.types ?? []
   }
 
   if (mode.value === 'cults') {
-    return (
-      store.query.cults.filterType?.length
-        ? store.query.cults.filterType
-        : store.query.cults.types?.length
-          ? store.query.cults.types
-          : store.query.cults.areas?.length
-            ? store.query.cults.areas
-            : []
-    )
+    return store.query.cults.filterType?.length
+      ? store.query.cults.filterType
+      : store.query.cults.types?.length
+        ? store.query.cults.types
+        : store.query.cults.areas ?? []
   }
 
   return []
 }
 
 async function createQueryLayer() {
-  const geojson = await fetchPlacesGeoJson()
+  const geojson = await fetchQueryGeoJson()
+
 
   return L.geoJSON(geojson, {
     pointToLayer(feature, latlng) {
+      const selectedIds = getSelectedMarkerIds()
 
-    const selectedIds =
-      mode.value === 'saints'
-        ? store.query.saints.saints
-        : mode.value === 'people'
-          ? store.query.people.people
-          : mode.value === 'cults'
-            ? store.query.cults.types
-            : []
-    return L.marker(latlng, {
-      icon: markerIcon(feature, mode.value, getSelectedMarkerIds()),
-    })
-  },
+      return L.marker(latlng, {
+        icon: markerIcon(
+          feature,
+          mode.value,
+          selectedIds,
+        ),
+      })
+    },
 
     onEachFeature(feature, leafletLayer) {
       const props = feature.properties || {}
@@ -265,7 +288,9 @@ async function createQueryLayer() {
       const title = [
         props.name,
         props.place_type_name,
-      ].filter(Boolean).join(', ')
+      ]
+        .filter(Boolean)
+        .join(', ')
 
       if (title) {
         leafletLayer.bindTooltip(title, {
@@ -274,12 +299,12 @@ async function createQueryLayer() {
         })
       }
 
-    leafletLayer.on('click', () => {
+      leafletLayer.on('click', () => {
         onFeatureClick(props, {
           router,
           mode: mode.value,
         })
-    })
+      })
     },
   })
 }

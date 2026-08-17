@@ -407,15 +407,15 @@ onMounted(() => {
 }
 #grid {
   display: flex;
-  flex-wrap: wrap; /* Allows wrapping for responsiveness */
-  width: 100%; /* Ensures the grid takes up the full width */
-  gap: 5px; /* Adds space between columns */
-  box-sizing: border-box; /* Ensures padding doesn't affect width */
+  flex-wrap: wrap; 
+  width: 100%; 
+  gap: 5px;
+  box-sizing: border-box; 
   
 }
 
 #grid .col {
-    width: calc(50% - 5px); /* Adjusted for gap (10px from each side) */
+    width: calc(50% - 5px); 
     padding-left: 0px !important;
     margin-bottom: 10px;
 }
