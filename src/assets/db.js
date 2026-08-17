@@ -49,21 +49,23 @@ export function map(query) {
   return request(`${apiUrl}/map/?${query}`)
 }
 
-export function advancedMap(extent, zoom, range, query) {
+export function advancedMap(bbox, zoom, range, query = {}) {
   const params = new URLSearchParams()
 
-  params.append('bbox', extent)
-  params.append('zoom', zoom)
-
-  if (range !== undefined && range !== null) {
-    params.append('range', range)
+  if (bbox) {
+    params.set('bbox', bbox)
   }
-
-  if (query && typeof query === 'object') {
-    Object.entries(query).forEach(([key, value]) => {
-      params.append(key, value || '')
-    })
+  if (zoom != null) {
+    params.set('zoom', zoom)
   }
+  if (range) {
+    params.set('range', range)
+  }
+  Object.entries(query).forEach(([key, value]) => {
+    if (value != null && value !== '') {
+      params.set(key, value)
+    }
+  })
 
   return request(`${apiUrl}/advancedmap/?${params.toString()}`)
 }

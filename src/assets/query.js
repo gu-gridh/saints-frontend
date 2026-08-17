@@ -144,7 +144,6 @@ const definitions = {
       cultType: [],
       placeType: [],
       personType: [],
-      placeTypes: [],
       personName: [],
       dioceseState: null,
     },
@@ -338,4 +337,14 @@ export function composeQuery(parts) {
     query = query[0];
   }
   return query;
+}
+
+export function buildAdvancedParams(queryState) {
+  const state = queryState?.advanced
+
+  if (!state) {
+    return {}
+  }
+
+  return definitions.advanced.buildParams(state)
 }
