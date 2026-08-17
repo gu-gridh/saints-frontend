@@ -55,7 +55,7 @@ const definitions = {
       const params = {}
 
       if (state.saints?.length) {
-        params.agent = state.saints.join(',')
+        params.ids = state.saints.join(',')
       } else if (state.types?.length) {
         params.ids = state.types.join(',')
       }
@@ -126,7 +126,7 @@ const definitions = {
       const params = {}
 
       if (state.people?.length) {
-        params.agent = state.people.join(',')
+        params.ids = state.people.join(',')
       } else if (state.types?.length) {
         params.ids = state.types.join(',')
       }

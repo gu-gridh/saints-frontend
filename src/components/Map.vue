@@ -243,23 +243,23 @@ async function fetchQueryGeoJson() {
 
 function getSelectedMarkerIds() {
   if (mode.value === 'saints') {
-    return store.query.saints.saints || []
+    return store.query.saints.saints?.length
+      ? store.query.saints.saints
+      : store.query.saints.types ?? []
   }
 
   if (mode.value === 'people') {
-    return store.query.people.people || []
+    return store.query.people.people?.length
+      ? store.query.people.people
+      : store.query.people.types ?? []
   }
 
   if (mode.value === 'cults') {
-    return (
-      store.query.cults.filterType?.length
-        ? store.query.cults.filterType
-        : store.query.cults.types?.length
-          ? store.query.cults.types
-          : store.query.cults.areas?.length
-            ? store.query.cults.areas
-            : []
-    )
+    return store.query.cults.filterType?.length
+      ? store.query.cults.filterType
+      : store.query.cults.types?.length
+        ? store.query.cults.types
+        : store.query.cults.areas ?? []
   }
 
   return []
@@ -268,13 +268,16 @@ function getSelectedMarkerIds() {
 async function createQueryLayer() {
   const geojson = await fetchQueryGeoJson()
 
+
   return L.geoJSON(geojson, {
     pointToLayer(feature, latlng) {
+      const selectedIds = getSelectedMarkerIds()
+
       return L.marker(latlng, {
         icon: markerIcon(
           feature,
           mode.value,
-          getSelectedMarkerIds()
+          selectedIds,
         ),
       })
     },
