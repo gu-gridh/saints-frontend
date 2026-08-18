@@ -56,4 +56,3 @@ const { page, loading, error } = useCmsPage(slug)
   </main>
 </template>
 
-</style>
