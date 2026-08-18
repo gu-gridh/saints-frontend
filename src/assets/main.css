@@ -137,6 +137,7 @@ input {
     height: auto;
     display: block;
     position: relative;
+    overflow-x: clip;
   }
 }
 
