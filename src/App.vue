@@ -1,10 +1,9 @@
 <script setup>
 import { computed } from 'vue'
-import { useRoute, useRouter, RouterLink, RouterView } from 'vue-router'
+import { useRoute, RouterLink, RouterView } from 'vue-router'
 import Footer from '@/components/Footer.vue'
   
 const route = useRoute()
-const router = useRouter()
 const showFooter = computed(() => !route.meta.hideFooter)
 
 </script>
@@ -13,13 +12,11 @@ const showFooter = computed(() => !route.meta.hideFooter)
   <nav class="main-menu">
     <RouterLink to="/" class="main-menu-link">Home</RouterLink>
     <RouterLink to="/introduction" class="main-menu-link">Introduction</RouterLink>
-    <RouterLink :to="{ name: 'places' }" class="main-menu-link">
-  Explore
-</RouterLink>
+    <RouterLink :to="{ name: 'places' }" class="main-menu-link">Explore</RouterLink>
     <RouterLink to="/project" class="main-menu-link">Project</RouterLink>
     <RouterLink to="/sources" class="main-menu-link">Bibliography</RouterLink>
   </nav>
-  <RouterView />
+  <RouterView :key="route.fullPath"/>
   <Footer v-if="showFooter" />
 </template>
 
