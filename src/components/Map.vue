@@ -243,15 +243,19 @@ async function fetchQueryGeoJson() {
 
 function getSelectedMarkerIds() {
   if (mode.value === 'saints') {
-    return store.query.saints.saints?.length
+    return store.query.saints.saints?.length > 1
       ? store.query.saints.saints
-      : store.query.saints.types ?? []
+      : store.query.saints.types?.length > 1
+        ? store.query.saints.types
+        : []
   }
 
   if (mode.value === 'people') {
-    return store.query.people.people?.length
+    return store.query.people.people?.length > 1
       ? store.query.people.people
-      : store.query.people.types ?? []
+      : store.query.people.types?.length > 1
+        ? store.query.people.types
+        : []
   }
 
   if (mode.value === 'cults') {
