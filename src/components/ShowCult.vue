@@ -4,21 +4,17 @@
       ← Back
     </button>
 
-    <h3>
+    <h1>
       <span v-if="cult.cult_uncertainty" class="unc">*</span>
       {{ cult.cult_type?.name }}
+    </h1>
 
-      <br />
-
+    <h2 v-if="cult.place">
       <span v-if="cult.place_uncertainty" class="unc">*</span>
-      <span v-if="cult.place">
-        {{ cult.place.name }},
-        {{ cult.place.municipality }},
-        {{ cult.place.place_type?.name }}
-      </span>
-    </h3>
-
-
+      {{ cult.place.name }},
+      {{ cult.place.municipality }},
+      {{ cult.place.place_type?.name }}
+    </h2>
 
     <table class="data-table">
       <tbody>
@@ -336,32 +332,3 @@ onBeforeUnmount(() => {
   store.setVisualObj(null);
 });
 </script>
-
-<style>
-.hidden {
-  display: none;
-}
-
-
-.unc {
-  font-weight: bold;
-  display: inline;
-}
-
-span {
-  display: inline;
-}
-
-.grid-container {
-  display: block !important;
-}
-
-
-p {
-  padding: 0;
-}
-
-td.comment p {
-  padding: 0 !important;
-}
-</style>

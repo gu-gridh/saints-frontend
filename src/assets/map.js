@@ -27,7 +27,7 @@ function svgIcon(svg, size = 30) {
 function circle(color) {
   return svgIcon(`
     <svg width="30" height="30" viewBox="0 0 30 30">
-      <circle cx="15" cy="15" r="11" fill="${color}" stroke="white" stroke-width="2"/>
+      <circle cx="15" cy="15" r="11" fill="${color}" stroke="white" stroke-width="1"/>
     </svg>
   `)
 }
@@ -35,7 +35,7 @@ function circle(color) {
 function square(color) {
   return svgIcon(`
     <svg width="30" height="30" viewBox="0 0 30 30">
-      <rect x="6" y="6" width="18" height="18" transform="rotate(45 15 15)" fill="${color}" stroke="white" stroke-width="2"/>
+      <rect x="6" y="6" width="18" height="18" transform="rotate(45 15 15)" fill="${color}" stroke="white" stroke-width="1"/>
     </svg>
   `)
 }
@@ -43,7 +43,7 @@ function square(color) {
 function triangle(color) {
   return svgIcon(`
     <svg width="30" height="30" viewBox="0 0 30 30">
-      <polygon points="15,4 27,25 3,25" fill="${color}" stroke="white" stroke-width="2"/>
+      <polygon points="15,4 27,25 3,25" fill="${color}" stroke="white" stroke-width="1"/>
     </svg>
   `)
 }
@@ -51,7 +51,7 @@ function triangle(color) {
 function triangleDown(color) {
   return svgIcon(`
     <svg width="30" height="30" viewBox="0 0 30 30">
-      <polygon points="3,5 27,5 15,26" fill="${color}" stroke="white" stroke-width="2"/>
+      <polygon points="3,5 27,5 15,26" fill="${color}" stroke="white" stroke-width="1"/>
     </svg>
   `)
 }
@@ -59,7 +59,7 @@ function triangleDown(color) {
 function star(color) {
   return svgIcon(`
     <svg width="30" height="30" viewBox="0 0 30 30">
-      <polygon points="15,3 18,11 27,11 20,17 23,26 15,21 7,26 10,17 3,11 12,11" fill="${color}" stroke="white" stroke-width="2"/>
+      <polygon points="15,3 18,11 27,11 20,17 23,26 15,21 7,26 10,17 3,11 12,11" fill="${color}" stroke="white" stroke-width="1"/>
     </svg>
   `)
 }

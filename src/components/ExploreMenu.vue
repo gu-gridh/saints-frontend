@@ -51,9 +51,10 @@ function resetMap() {
 }
 .item {
   width: 21%;
-  max-width: 8.2rem;
+  max-width: 10rem;
   padding: 0.4rem;
   color: inherit;
+  text-decoration: none;
 }
 
 .item .label {
@@ -77,10 +78,10 @@ img {
   overflow: hidden;
 }
 .item.router-link-active {
-  color: #DC9614;
+  color: var(--contrast-color-menu);
 }
 .item.router-link-active .img-container {
-  background-color: #DC9614;
+  background-color: var(--contrast-color-menu);
 }
 .item .label {
   font-size: 90%;

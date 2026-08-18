@@ -14,7 +14,7 @@ const showFooter = computed(() => !route.meta.hideFooter)
     <RouterLink to="/introduction" class="main-menu-link">Introduction</RouterLink>
     <RouterLink :to="{ name: 'places' }" class="main-menu-link">Explore</RouterLink>
     <RouterLink to="/project" class="main-menu-link">Project</RouterLink>
-    <RouterLink to="/bibliography" class="main-menu-link">Bibliography</RouterLink>
+    <RouterLink to="/sources" class="main-menu-link">Bibliography</RouterLink>
   </nav>
   <RouterView :key="route.fullPath"/>
   <Footer v-if="showFooter" />
@@ -22,7 +22,7 @@ const showFooter = computed(() => !route.meta.hideFooter)
 
 <style scoped>
 .main-menu {
-  padding: 0 0 30px;
+  padding: 0 0 10px 30px;
   font-size: 25px;
   font-weight: 200;
   display: -webkit-box;
@@ -37,8 +37,15 @@ const showFooter = computed(() => !route.meta.hideFooter)
 }
 
 .main-menu-link.router-link-active {
-  background-color: #dc9614;
+  background-color: var(--contrast-color-menu);
   color: #fff;
   font-weight: 200;
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: var(--contrast-color-menu-light);
+    color: #fff;
+  }
 }
 </style>

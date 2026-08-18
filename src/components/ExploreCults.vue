@@ -51,7 +51,7 @@
 
       <input
         v-if="areasSelected.includes(3)"
-        id="date"
+        id="date" class="dropdown"
         v-model="feastDayFreetext"
         type="text"
         name="date"

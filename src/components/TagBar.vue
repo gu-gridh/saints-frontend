@@ -3,7 +3,7 @@
     <span
         v-for="label in tagList"
         :key="label.id"
-        class="tag tag-bar-tag"
+        class="tag"
         :class="{ active: localValue.includes(label.id) }"
         :style="{ backgroundColor: getSelectedColor(label.id) }"
         @click="toggle(label.id)"
@@ -100,10 +100,6 @@ defineExpose({
   margin-block: 0.5rem;
 }
 
-.tag-bar-tag {
-  cursor: pointer;
-}
-
 @media screen and (max-width: 900px) {
   .tag-bar {
     display: block;
@@ -111,7 +107,7 @@ defineExpose({
     font-size: 16px;
   }
 
-  .tag-bar-tag {
+  .tag {
     display: inline-block;
     margin-right: 0.4rem;
     margin-bottom: 0.4rem;
@@ -123,25 +119,14 @@ defineExpose({
   padding: 0 0.5em;
   border-radius: 0.3em;
   font-size: 16.8px;
-  font-weight: 430;
   background-color: #e8e8e8;
   transition: all ease-in-out 200ms;
+  cursor: pointer;
 }
 
 .tag.active {
-  background-color: #ff8000;
+  background-color: var(--contrast-color);
   color: white;
-}
-
-.tag-bar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-block: 0.5rem;
-}
-
-.tag-bar-tag {
-  cursor: pointer;
 }
 
 @media (max-width: 900px) {
@@ -151,7 +136,7 @@ defineExpose({
     font-size: 16px;
   }
 
-  .tag-bar-tag {
+  .tag {
     display: inline-block;
     margin-right: 0.4rem;
     margin-bottom: 0.4rem;
